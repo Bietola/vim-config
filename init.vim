@@ -5,11 +5,10 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'prabirshrestha/vim-lsp'
+Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
 Plug 'ron-rs/ron.vim'
-Plug 'ryanolsonx/vim-lsp-python'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'alx741/vim-hindent'
 Plug 'AndrewRadev/dsf.vim'
@@ -22,7 +21,6 @@ Plug 'masukomi/vim-markdown-folding'
 Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'gyim/vim-boxdraw'
 Plug 'kana/vim-tabpagecd'
 Plug 'Raimondi/delimitMate'
@@ -137,6 +135,9 @@ set belloff+=ctrlg
 " mucompolete-specific settings
 let g:mucomplete#enable_auto_at_startup = 1
 
+" ctrl settings
+let g:ctrlp_show_hidden = 1
+
 " leader
 let mapleader = "ò"
 
@@ -166,6 +167,17 @@ let g:airline_powerline_fonts = 1
 set tabstop=4
 set shiftwidth=4
 set backspace=indent,eol,start
+
+" fancy lines numbers
+" turn hybrid line numbers on
+" :set number relativenumber
+" :set nu rnu
+" turn hybrid line numbers off
+" :set nonumber norelativenumber
+" :set nonu nornu
+" toggle hybrid line numbers
+" :set number! relativenumber!
+" :set nu! rnu!
 
 " default syntax
 syntax on
@@ -220,8 +232,8 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 
 " ultisnips settings
 let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="L"
+let g:UltiSnipsJumpBackwardTrigger="H"
 
 " TODO: find out better way to do this
 " NB. Ultisnips is not compatible with neovim... so we need to use the .vim
@@ -238,8 +250,9 @@ let delimitMate_expand_cr = 1
 " markdown mappings  
 nnoremap <leader>ft :TableFormat<CR>
 
-" surround mappings
+" surround mappings and custom settings
 nmap s ys
+au FileType lilypond let b:surround_45 = "<< \r >>"
 
 " markdown settings  
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -375,9 +388,33 @@ nnoremap <leader>tn :tabnew<cr>
 " quick vimgrep command
 command -nargs=1 Vimgrep vimgrep <args> ##
 " NB: this initialization is customized for different languages
-nnoremap <leader>vi :args ./**<cr>
-nnoremap <leader>vg :Vimgrep 
-nnoremap <leader>v/ :Vimgrep ///g<cr>
+au filetype c,cpp nnoremap <leader>vi :args ./**<cr>
+au filetype c,cpp nnoremap <leader>vg :Vimgrep 
+au filetype c,cpp nnoremap <leader>v/ :Vimgrep ///g<cr>
+
+" Lilypond general keybindings
+" Compile current file
+au filetype lilypond nnoremap <leader>c :w<cr>:!lilypond %<cr>
+" View pdf associated with current file
+au filetype lilypond nnoremap <leader>v :!zathura %:r.pdf &<cr>
+" play selected notes
+au filetype lilypond nnoremap <leader>p :set opfunc=LyPlay<CR>g@
+" TODO: vmap <silent> <F4> :<C-U>call CountSpaces(visualmode(), 1)<CR>
+" function to do heavy lifting
+function! LyPlay(type)
+    " Get notes specified by the motion
+    if a:type == 'line'
+        silent exe "normal! '[V']y"
+    else
+        silent exe "normal! `[v`]y"
+    endif
+
+    " Play them
+    let lycommand = "!lyplay italiano do \"<->\""
+    let lycommand = substitute(lycommand, "<->", @@, "")
+    exe lycommand
+endfunction
+
 
 " LSP general keybindings
 nnoremap <leader>hv :LspHover<cr>
@@ -395,6 +432,8 @@ au filetype rust nnoremap <leader><leader>t :!cargo test<cr>
 " Boxes
 au filetype rust vnoremap <leader>b :'<,'>!boxes<cr>
 au filetype rust nnoremap <leader>bb V:'<,'>!boxes<cr>
+au filetype rust nnoremap <leader>bm vip:'<,'>!boxes -m<cr>
+au filetype rust nnoremap <leader>vg :Vimgrep 
 " Other useful keybindings
 au filetype rust nnoremap <leader>vi :args src/**<cr>
 

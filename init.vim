@@ -5,6 +5,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'thomasfaingnaert/vim-lsp-snippets'
+Plug 'thomasfaingnaert/vim-lsp-ultisnips'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
@@ -68,6 +70,9 @@ call plug#end()
 
 " vimrc loading stuff
 set exrc
+
+" General terminal commands.
+nnoremap <leader>tw :!st &<cr>
 
 " nvim :terminal suff
 if has("nvim")

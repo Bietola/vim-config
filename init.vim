@@ -5,8 +5,10 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-ultisnips'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
@@ -22,7 +24,6 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'masukomi/vim-markdown-folding'
 Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
-Plug 'prabirshrestha/async.vim'
 Plug 'gyim/vim-boxdraw'
 Plug 'kana/vim-tabpagecd'
 Plug 'Raimondi/delimitMate'
@@ -344,45 +345,19 @@ au FileType python set shiftwidth=4
 au FileType python set sts=4
 au FileType python set autoindent
 
-" LSP settings
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd', '-background-index']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-        autocmd FileType c setlocal omnifunc=lsp#complete
-        autocmd FileType cpp setlocal omnifunc=lsp#complete
-endif
+""""""""""""""""
+" LSP settings "
+""""""""""""""""
 
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-        \ 'whitelist': ['rust'],
-        \ })
-        autocmd FileType rust setlocal omnifunc=lsp#complete
-endif
+" LSP Autocompletion with tab.
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 
-if executable('lua-lsp')
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'lua-lsp',
-                \ 'cmd': {server_info->[&shell, &shellcmdflag, 'lua-lsp']},
-                \ 'whitelist': ['lua'],
-                \ })
-endif
+"""""""""""""""""""""""""""""
+" Haskell specific settings "
+"""""""""""""""""""""""""""""
 
-if executable('vhdl_ls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'vhdl_ls',
-        \ 'cmd': {server_info->['vhdl_ls']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'vhdl_ls.toml'))},
-        \ 'whitelist': ['vhdl'],
-        \ })
-endif
-
-"" Haskell specific settings
 " Hindent
 au filetype haskell let g:hindent_on_save = 0
 

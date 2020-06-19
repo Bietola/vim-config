@@ -5,13 +5,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
 Plug 'ron-rs/ron.vim'
@@ -22,7 +17,6 @@ Plug 'guns/vim-sexp'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
-Plug 'masukomi/vim-markdown-folding'
 Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'gyim/vim-boxdraw'
@@ -43,9 +37,6 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'majutsushi/tagbar'
 Plug 'thaerkh/vim-workspace'
 Plug 'godlygeek/tabular'
-" Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'plasticboy/vim-markdown'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
@@ -355,15 +346,6 @@ au FileType python set shiftwidth=4
 au FileType python set sts=4
 au FileType python set autoindent
 
-""""""""""""""""
-" LSP settings "
-""""""""""""""""
-
-" LSP Autocompletion with tab.
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-
 """""""""""""""""""""""""""""
 " Haskell specific settings "
 """""""""""""""""""""""""""""
@@ -406,14 +388,6 @@ function! LyPlay(type)
 endfunction
 
 
-" LSP general keybindings
-nnoremap <leader>hv :LspHover<cr>
-nnoremap <leader>rf :LspReference<cr>
-noremap <leader>rn :LspRename<cr>
-noremap <leader>fm :RustFmt<cr>
-noremap <leader>er :LspDocumentDiagnostics<cr>
-noremap <leader>gd :LspDefinition<cr>
-noremap <leader>gr :LspReferences<cr>
 
 "" Rust keybindings
 " Cargo
@@ -433,7 +407,7 @@ au filetype c inoremap <c-c> <esc>:!gcc main.c<cr>i
 "" Racket keybindings
 " Slime
 au filetype racket nnoremap <leader>tt :vsp<cr>:term racket<cr>:echo b:terminal_job_id<cr><c-w><c-l>
-au filetype racket nnoremap <leader>fm :LspDocumentFormat<cr>
+au filetype racket nnoremap <leader>fm :echo "WIP"<cr>
 
 "" Haskell keybindings
 " Slime
@@ -467,3 +441,8 @@ nnoremap <leader>a mmggVG:SlimeSend<cr>'m
 " NB. Lance is an educational language for the Formal Languages course at
 " Polimi
 autocmd FileType lance set syntax = lua
+
+" coc configuration
+if filereadable($HOME."/.config/nvim/coc.vim")
+    source ${HOME}/.config/nvim/coc.vim
+endif

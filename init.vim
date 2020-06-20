@@ -5,6 +5,8 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -13,7 +15,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
 Plug 'ron-rs/ron.vim'
-Plug 'honza/vim-snippets'
 Plug 'alx741/vim-hindent'
 Plug 'AndrewRadev/dsf.vim'
 Plug 'runoshun/vim-alloy'
@@ -39,7 +40,6 @@ Plug 'jpalardy/vim-slime'
 Plug 'vim-scripts/DrawIt'
 Plug 'AndrewRadev/sideways.vim'
 " Plug 'Valloric/YouCompleteMe'
-Plug 'SirVer/ultisnips'
 Plug 'majutsushi/tagbar'
 Plug 'thaerkh/vim-workspace'
 Plug 'godlygeek/tabular'
@@ -56,9 +56,6 @@ Plug 'vim-perl/vim-perl6'
 Plug 'quabug/vim-gdscript'
 Plug 'sheerun/vim-polyglot'
 "TODO Plug 'vim-syntastic/syntastic'
-
-" utilsnips snippets
-Plug 'dawikur/algorithm-mnemonics.vim'
 
 " colorschemes
 Plug 'nightsense/carbonized'
@@ -156,8 +153,9 @@ vnoremap <leader>tab :Tabularize
 " sideways mappings
 nnoremap <leader>h :SidewaysLeft<CR>
 nnoremap <leader>l :SidewaysRight<CR>
-" ultisnips mappings
-nnoremap <leader>se :UltiSnipsEdit<CR>
+" vimrc management
+" TODO: Make a boxes related plugin
+au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
 
 " terminal looks
 set background=dark
@@ -236,10 +234,22 @@ let g:ycm_auto_trigger = 0
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files = 1
 
-" ultisnips settings
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="L"
-let g:UltiSnipsJumpBackwardTrigger="H"
+""""""""""""""""""
+" vsnip settings "
+"                "
+""""""""""""""""""
+" All snippets are in this directory.
+" TODO: Use `XDG_CONFIG_HOME` in path (set it in `/ect/profile`).
+let g:vsnip_snippet_dir = "/home/dincio/.config/nvim/snippets"
+
+" Keybindings.
+"! imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+"! imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+"! smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <C-h>   vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <C-h>   vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 " TODO: find out better way to do this
 " NB. Ultisnips is not compatible with neovim... so we need to use the .vim

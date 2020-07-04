@@ -415,6 +415,11 @@ noremap <leader>er :LspDocumentDiagnostics<cr>
 noremap <leader>gd :LspDefinition<cr>
 noremap <leader>gr :LspReferences<cr>
 
+"" Sh keybindings
+au filetype sh vnoremap <leader>b :'<,'>!boxes -d shell<cr>
+au filetype sh nnoremap <leader>bb V:'<,'>!boxes -d shell<cr>
+au filetype sh nnoremap <leader>bm vip:'<,'>!boxes -d shell -m<cr>
+
 "" Rust keybindings
 " Cargo
 au filetype rust nnoremap <leader><leader>r :!cargo run<cr>

@@ -69,13 +69,10 @@ call plug#end()
 " vimrc loading stuff
 set exrc
 
-" General terminal commands.
-nnoremap <leader>tw :!st &<cr>
-
 " nvim :terminal suff
 if has("nvim")
-inoremap <ESC> <C-\><C-n>
-"! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
+  tnoremap <ESC><ESC> <C-\><C-n>
+  "! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
 endif
 
 " window splitting shortcuuts
@@ -127,17 +124,6 @@ if g:os == "Linux"
 command -bar -nargs=1 VCMake !cmake -DCMAKE_TOOLCHAIN_FILE=/usr/pkg/vcpkg/scripts/buildsystems/vcpkg.cmake <args>
 end
 
-" autocomplete settings
-set complete-=i
-" suggested by mu complete
-set completeopt+=menuone
-set completeopt+=noselect
-set shortmess+=c
-set belloff+=ctrlg
-
-" mucompolete-specific settings
-let g:mucomplete#enable_auto_at_startup = 1
-
 " ctrl settings
 let g:ctrlp_show_hidden = 1
 
@@ -156,6 +142,7 @@ nnoremap <leader>l :SidewaysRight<CR>
 " vimrc management
 " TODO: Make a boxes related plugin
 au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
+au filetype vim nnoremap <leader>bb V:'<,'>!boxes -d vim<cr>
 
 " terminal looks
 set background=dark
@@ -233,6 +220,13 @@ let g:enable_ycm_at_startup = 0
 let g:ycm_auto_trigger = 0
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files = 1
+
+"""""""""""""""""""""""""""
+" async complete settings "
+"                         "
+"""""""""""""""""""""""""""
+
+" No floating hint box
 
 """"""""""""""""""
 " vsnip settings "
@@ -372,6 +366,9 @@ inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
 au filetype haskell let g:hindent_on_save = 0
 
 " utility leader commands
+nnoremap <leader>to <C-W>o<C-W>j:term<cr>
+nnoremap <leader>tv <C-W>v<C-W>l:term<cr>
+nnoremap <leader>tw <leader>to
 nnoremap <leader>tt :tabnew<cr>:term<cr>
 nnoremap <leader>tn :tabnew<cr>
 
@@ -458,9 +455,6 @@ command GA Git A
 
 " Ranger configuration
 let g:ranger_replace_netrw = 1 "open ranger when vim open a directory
-
-" Terminal stuff
-tnoremap <Esc> <C-\><C-n>
 
 " Scheme stuff
 " Local leader.

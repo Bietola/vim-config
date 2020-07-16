@@ -191,6 +191,9 @@ set number
 " no idea... (should research)
 set timeoutlen=10000
 
+" Sensible clipboard behaviour.
+set clipboard=unnamedplus
+
 " utility remappings
 " imap jk <Esc> " RIP (need caps lock for ranger)
 

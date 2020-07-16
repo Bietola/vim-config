@@ -141,8 +141,8 @@ nnoremap <leader>h :SidewaysLeft<CR>
 nnoremap <leader>l :SidewaysRight<CR>
 " vimrc management
 " TODO: Make a boxes related plugin
-au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
-au filetype vim nnoremap <leader>bb V:'<,'>!boxes -d vim<cr>
+au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim-box<cr>
+au filetype vim nnoremap <leader>bb V:'<,'>!boxes -d vim-box<cr>
 
 " terminal looks
 set background=dark

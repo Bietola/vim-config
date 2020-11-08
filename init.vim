@@ -42,6 +42,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 
 " programming languages
+Plug 'OmniSharp/omnisharp-vim'
 Plug 'suoto/vim-hdl'
 Plug 'vim-perl/vim-perl6'
 Plug 'quabug/vim-gdscript'
@@ -135,6 +136,9 @@ let g:ctrlp_show_hidden = 1
 " leader
 let mapleader = "ò"
 
+" Sensible clipboard defaults
+set clipboard=unnamedplus
+
 " useful mappings
 nnoremap <S-Enter> O<Esc>
 nnoremap <CR> o<Esc>
@@ -153,6 +157,7 @@ set background=dark
 set termguicolors
 colorscheme iceberg
 set guifont=Consolas:h17
+nnoremap <leader>m :colorscheme morning<cr>
 
 " tab (those akin to windows...) settings and custom commands
 au TabEnter * if exists("t:wd") | exe "cd" t:wd | endif
@@ -227,7 +232,6 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 
 """"""""""""""""""
 " vsnip settings "
-"                "
 """"""""""""""""""
 " All snippets are in this directory.
 " TODO: Use `XDG_CONFIG_HOME` in path (set it in `/ect/profile`).
@@ -425,9 +429,6 @@ au filetype haskell nnoremap <leader>t= :Tabular /=<cr>
 " Git fugitive custom commands
 command GA Git A
 
-" Ranger configuration
-let g:ranger_replace_netrw = 1 "open ranger when vim open a directory
-
 " Terminal stuff
 tnoremap <Esc> <C-\><C-n>
 
@@ -441,6 +442,9 @@ nnoremap <leader>a mmggVG:SlimeSend<cr>'m
 " NB. Lance is an educational language for the Formal Languages course at
 " Polimi
 autocmd FileType lance set syntax = lua
+
+"" C#
+let g:OmniSharp_server_use_mono = 1
 
 " coc configuration
 if filereadable($HOME."/.config/nvim/coc.vim")

@@ -61,13 +61,10 @@ call plug#end()
 " vimrc loading stuff
 set exrc
 
-" General terminal commands.
-nnoremap <leader>tw :!st &<cr>
-
-" nvim :terminal suff
+" nvim :termin$al suff
 if has("nvim")
-inoremap <ESC> <C-\><C-n>
-"! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
+  tnoremap <ESC><ESC> <C-\><C-n>
+  "! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
 endif
 
 " window splitting shortcuuts
@@ -430,7 +427,7 @@ au filetype haskell nnoremap <leader>t= :Tabular /=<cr>
 command GA Git A
 
 " Terminal stuff
-tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc><Esc> <C-\><C-n>
 
 " Scheme stuff
 " Local leader.

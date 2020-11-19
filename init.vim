@@ -443,6 +443,10 @@ autocmd FileType lance set syntax = lua
 "" C#
 let g:OmniSharp_server_use_mono = 1
 
+""""""""""""""""""""""""""
+" vim-wiki configuration "
+""""""""""""""""""""""""""
+
 " coc configuration
 if filereadable($HOME."/.config/nvim/coc.vim")
     source ${HOME}/.config/nvim/coc.vim

@@ -5,6 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'vimwiki/vimwiki'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'hrsh7th/vim-vsnip'
 Plug 'daveyarwood/vim-alda'
@@ -148,6 +149,8 @@ nnoremap <leader>l :SidewaysRight<CR>
 " vimrc management
 " TODO: Make a boxes related plugin
 au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
+au filetype vim nnoremap <leader>bb V:'<,'>!boxes -d vim<cr>
+au filetype vim nnoremap <leader>bm vip:'<,'>!boxes -d vim -m<cr>
 
 " terminal looks
 set background=dark
@@ -282,6 +285,10 @@ let g:markdown_enable_folding = 1
 " let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
 "                                       " plugin which unfortunately interferes with mkdx list indentation.
 
+""""""""""""""""""""""""""""""""""""""
+" Language specific setting sections "
+""""""""""""""""""""""""""""""""""""""
+
 " default formatting settings
 set expandtab
 set tabstop=4
@@ -303,7 +310,6 @@ let g:tagbar_type_perl6 = {
     \ 'b:submethods',
     \ 's:subroutines',
     \ 't:tokens'
-  \ ]
 \ }
 
 " c and cpp formatting settings
@@ -446,8 +452,13 @@ let g:OmniSharp_server_use_mono = 1
 """"""""""""""""""""""""""
 " vim-wiki configuration "
 """"""""""""""""""""""""""
+set nocompatible
+filetype plugin on
+syntax on
 
-" coc configuration
+"""""""""""""""""""""
+" coc configuration "
+"""""""""""""""""""""
 if filereadable($HOME."/.config/nvim/coc.vim")
     source ${HOME}/.config/nvim/coc.vim
 endif

@@ -285,6 +285,12 @@ let g:markdown_enable_folding = 1
 " let g:polyglot_disabled = ['markdown'] " for vim-polyglot users, it loads Plasticboy's markdown
 "                                       " plugin which unfortunately interferes with mkdx list indentation.
 
+"""""""""""""""""""""""""""""""""
+" Local configuration directory "
+"""""""""""""""""""""""""""""""""
+
+let g:local_conf_dir = ".vim"
+
 """"""""""""""""""""""""""""""""""""""
 " Language specific setting sections "
 """"""""""""""""""""""""""""""""""""""
@@ -295,22 +301,6 @@ set tabstop=4
 set shiftwidth=4
 set sts=4
 set autoindent
-
-" tagbar settings for perl6
-let g:tagbar_type_perl6 = {
-  \ 'ctagstype' : 'perl6',
-  \ 'kinds' : [
-    \ 'c:classes',
-    \ 'g:grammar',
-    \ 'm:methods',
-    \ 'o:modules',
-    \ 'p:packages',
-    \ 'r:roles',
-    \ 'u:rules',
-    \ 'b:submethods',
-    \ 's:subroutines',
-    \ 't:tokens'
-\ }
 
 " c and cpp formatting settings
 au FileType cpp,c set expandtab
@@ -456,9 +446,11 @@ set nocompatible
 filetype plugin on
 syntax on
 
-"""""""""""""""""""""
-" coc configuration "
-"""""""""""""""""""""
-if filereadable($HOME."/.config/nvim/coc.vim")
-    source ${HOME}/.config/nvim/coc.vim
-endif
+""""""""""""""""""""""""""""""""""""""""""""
+" External vimscript configuration scripts "
+""""""""""""""""""""""""""""""""""""""""""""
+let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
+
+for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
+    exe "source" src_file
+endfor

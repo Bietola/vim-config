@@ -297,6 +297,7 @@ au filetype haskell let g:hindent_on_save = 0
 " utility leader commands
 nnoremap <leader>tt :tabnew<cr>:term<cr>
 nnoremap <leader>tn :tabnew<cr>
+nnoremap <leader>pwd :!pwd \| xclip -selection clipboard<cr>
 
 " quick vimgrep command
 command -nargs=1 Vimgrep vimgrep <args> ##

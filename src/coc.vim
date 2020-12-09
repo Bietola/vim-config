@@ -1,3 +1,6 @@
+" Coc extensions
+let g:coc_global_extensions = ['coc-snippets']
+
 " TextEdit might fail if hidden is not set.
 set hidden
 

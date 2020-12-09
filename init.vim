@@ -193,8 +193,15 @@ smap <expr> <C-h>   vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-T
 " TODO: find out better way to do this
 " NB. Ultisnips is not compatible with neovim... so we need to use the .vim
 " directory
-set runtimepath^=~/.vim
-let g:UltiSnipsSnippetsDirectories=[$HOME.'/.vim/UltiSnips']
+" set runtimepath^=~/.vim
+" let g:UltiSnipsSnippetsDirectories=[$HOME.'/.vim/UltiSnips']
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger = "<c-j>"
+let g:UltiSnipsListSnippets = "<c-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+
 
 " vim-slime options
 let g:slime_target = "neovim"
@@ -398,4 +405,5 @@ let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
 
 for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
     exe "source" src_file
+    echom "loaded " src_file
 endfor

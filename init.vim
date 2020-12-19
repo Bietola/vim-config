@@ -336,9 +336,15 @@ function! LyPlay(type)
     exe lycommand
 endfunction
 
+""""""""""""""""
+" Nix settings "
+""""""""""""""""
 
+au filetype nix set foldmethod=indent
 
-"" Rust keybindings
+"""""""""""""""""
+" Rust settings "
+"""""""""""""""""
 " Cargo
 au filetype rust nnoremap <leader><leader>r :!cargo run<cr>
 au filetype rust nnoremap <leader><leader>t :!cargo test<cr>

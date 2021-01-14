@@ -6,11 +6,16 @@
 "     echom "Error: ~/bin/yexp script required"
 " endif
 
+" Local leader for plan files
+" TODO: Find out why this doesn't work
+au BufRead,BufNewfile *.pln let maplocalleader = "à"
+
 " Process file with yexp
 function YexpStep()
   normal mm
   execute join(["%!~/bin/yexp 2>", expand("%:p:h"), "/yexp-err"], "")
   normal 'mf>w
+  normal zz
 endfunction
 command! YexpStep call YexpStep()
 
@@ -20,7 +25,8 @@ function YexpSetCC(cc)
 endfunction
 
 " Mappings
-nnoremap <leader>u :call YexpStep()<cr>
-nnoremap <leader>ce :call YexpSetCC('E')<cr>f>w:call YexpStep()<cr>
-nnoremap <leader>cv :call YexpSetCC('$')<cr>f>w
-nnoremap <leader>cs :call YexpSetCC('S')<cr>f>w
+" TODO: Make <localleader> work here
+nnoremap àu :call YexpStep()<cr>
+nnoremap àce :call YexpSetCC('E')<cr>f>w:call YexpStep()<cr>
+nnoremap àcv :call YexpSetCC('$')<cr>f>w
+nnoremap àcs :call YexpSetCC('S')<cr>f>w

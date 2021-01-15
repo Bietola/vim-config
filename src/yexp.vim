@@ -27,6 +27,7 @@ endfunction
 " Mappings
 " TODO: Make <localleader> work here
 nnoremap àu :call YexpStep()<cr>
-nnoremap àce :call YexpSetCC('E')<cr>f>w:call YexpStep()<cr>
+nnoremap àce :call YexpSetCC('E')<cr>f>w
+nnoremap àcc :call YexpSetCC('E')<cr>f>w:YexpStep<cr>
 nnoremap àcv :call YexpSetCC('$')<cr>f>w
 nnoremap àcs :call YexpSetCC('S')<cr>f>w

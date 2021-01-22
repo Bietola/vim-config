@@ -1,0 +1,9 @@
+snippet usg "Classing usage"
+usage() {
+	`!p snip.rv += 'echo "Usage: {} ${{1:[ARGS]}}"'.format(snip.basename)`
+
+	exit 1
+}$0
+
+[[ $# -ne ${2:ARGS_NUM} ]] && usage
+endsnippet

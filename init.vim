@@ -1,7 +1,64 @@
 "" pathogen (RIP)
 " execute pathogen#infect()
-"" plug init (RIP)
-"call plug#begin('~/.local/share/nvim/plugged')
+
+" plug init
+call plug#begin('~/.local/share/nvim/plugged')
+
+" plugins
+Plug 'https://gitlab.com/n9n/vim-apl'
+Plug 'vimwiki/vimwiki'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'daveyarwood/vim-alda'
+Plug 'calincru/flex-bison-syntax'
+Plug 'ron-rs/ron.vim'
+Plug 'sirver/UltiSnips'
+Plug 'alx741/vim-hindent'
+Plug 'AndrewRadev/dsf.vim'
+Plug 'runoshun/vim-alloy'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'tommcdo/vim-exchange'
+Plug 'gyim/vim-boxdraw'
+Plug 'kana/vim-tabpagecd'
+Plug 'Raimondi/delimitMate'
+Plug 'szw/vim-tags'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+Plug 'jpalardy/vim-slime'
+Plug 'vim-scripts/DrawIt'
+Plug 'AndrewRadev/sideways.vim'
+" Plug 'Valloric/YouCompleteMe' (RIP)
+Plug 'majutsushi/tagbar'
+Plug 'thaerkh/vim-workspace'
+Plug 'godlygeek/tabular'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'kien/ctrlp.vim'
+
+" programming languages
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'suoto/vim-hdl'
+Plug 'vim-perl/vim-perl6'
+Plug 'quabug/vim-gdscript'
+Plug 'sheerun/vim-polyglot'
+"TODO Plug 'vim-syntastic/syntastic'
+
+" colorschemes
+Plug 'nightsense/carbonized'
+Plug 'JarrodCTaylor/spartan'
+Plug 'KKPMW/sacredforest-vim'
+Plug 'cocopon/iceberg.vim'
+
+" plug deinit
+call plug#end()
 
 " vimrc loading stuff
 set exrc
@@ -11,6 +68,12 @@ if has("nvim")
   tnoremap <ESC><ESC> <C-\><C-n>
   "! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
 endif
+
+" Sensible copy-pasting
+set clipboard=unnamedplus
+
+" Better navigation with relative line numbers
+set relativenumber
 
 " window splitting shortcuuts
 noremap <C-w>V <C-w>v<C-w><C-l>
@@ -134,6 +197,9 @@ let g:vim_tags_directories = [".git/..", ".hg", ".svn", ".bzr", "_darcs", "CVS"]
 let g:vim_tags_ignore_files = ['.gitignore', '.svnignore', '.cvsignore']
 let g:vim_tags_project_tags_command = "{CTAGS} -R --fields=+l {OPTIONS} {DIRECTORY} 2>/dev/null"
 
+" quick way to exit vim
+nnoremap zq :wq<cr>
+
 " default path
 set path+=../**
 
@@ -153,6 +219,7 @@ command NoWar  set errorformat^=%-G%f:%l:\ warning:%m
 command Tgen   cd .. | !ctags -R | cd build
 command Comp   !g++ main.cpp -o Proj
 command RCEdit edit $MYVIMRC
+nnoremap <leader><leader> :RC<cr>
 
 command Ex  !./Proj
 command Tex !/usr/bin/time ./Proj 
@@ -177,19 +244,6 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 """"""""""""""""""
 " vsnip settings "
 """"""""""""""""""
-" All snippets are in this directory.
-" TODO: Use `XDG_CONFIG_HOME` in path (set it in `/ect/profile`).
-let g:vsnip_snippet_dir = "/home/dincio/.config/nvim/snippets"
-
-" Keybindings.
-"! imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-"! imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-"! smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <C-h>   vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <C-h>   vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
 " TODO: find out better way to do this
 " NB. Ultisnips is not compatible with neovim... so we need to use the .vim
 " directory
@@ -201,7 +255,7 @@ let g:UltiSnipsExpandTrigger = "<c-j>"
 let g:UltiSnipsListSnippets = "<c-tab>"
 let g:UltiSnipsJumpForwardTrigger = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
-
+nnoremap <leader>es :UltiSnipsEdit<cr>
 
 " vim-slime options
 let g:slime_target = "neovim"
@@ -411,5 +465,5 @@ let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
 
 for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
     exe "source" src_file
-    echom "loaded " src_file
+    " echom "loaded " src_file
 endfor

@@ -1,6 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/dincio/.local/share/nvim/plugged'
-let g:netrw_dirhist_2='/home/dincio/code/and'
-let g:netrw_dirhist_3='/home/dincio'
-let g:netrw_dirhist_4='/home/dincio/tmp'
+let g:netrw_dirhistcnt =1
+let g:netrw_dirhist_1='/home/dincio/code/aoc/haskell/p1-p1/src'
+let g:netrw_dirhist_0='/home/dincio/sync/written/old-stories'
+let g:netrw_dirhist_9='/home/dincio/sync/written/old-stories/mie'
+let g:netrw_dirhist_8='/home/dincio/code/aoc/haskell/p1-p1/app'
+let g:netrw_dirhist_7='/home/dincio/code/aoc/haskell/p1-p1'
+let g:netrw_dirhist_6='/home/dincio/code/aoc/haskell/p1-p1/src'
+let g:netrw_dirhist_5='/home/dincio/code/aoc/haskell/p1-p1'
+let g:netrw_dirhist_4='/home/dincio/config/dotfiles/.talon/user'
+let g:netrw_dirhist_3='/home/dincio/config/dotfiles/sxhkd'
+let g:netrw_dirhist_2='/home/dincio/.talon/user'

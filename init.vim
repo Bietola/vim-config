@@ -45,7 +45,6 @@ Plug 'kien/ctrlp.vim'
 
 " programming languages
 Plug 'OmniSharp/omnisharp-vim'
-Plug 'suoto/vim-hdl'
 Plug 'vim-perl/vim-perl6'
 Plug 'quabug/vim-gdscript'
 Plug 'sheerun/vim-polyglot'
@@ -139,7 +138,7 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:ctrlp_show_hidden = 1
 
 " leader
-let mapleader = "ò"
+let mapleader = "à"
 
 " Sensible clipboard defaults
 set clipboard=unnamedplus
@@ -266,10 +265,6 @@ let delimitMate_expand_cr = 1
 " markdown mappings  
 nnoremap <leader>ft :TableFormat<CR>
 
-" surround mappings and custom settings
-nmap s ys
-au FileType lilypond let b:surround_45 = "<< \r >>"
-
 " markdown settings  
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_enable_folding = 1
@@ -341,7 +336,18 @@ au FileType racket let b:delimitMate_quotes = "\""
 "asdf formatting settings
 au BufRead,BufNewFile *.asd set filetype=lisp
 
-" python3 formatting settings
+"""""""""""""""""
+" Vim providers "
+"""""""""""""""""
+
+let g:python_host_prog  = "~/.config/nvim/providers/py/nvim-py2-venv/bin/python"
+let g:python3_host_prog  = "~/.config/nvim/providers/py/nvim-py3-venv/bin/python"
+
+""""""""""""""""""""""""""""
+" Python specific settings "
+""""""""""""""""""""""""""""
+
+" python formatting settings
 au FileType python set expandtab
 au FileType python set tabstop=4
 au FileType python set shiftwidth=4
@@ -366,29 +372,6 @@ command -nargs=1 Vimgrep vimgrep <args> ##
 au filetype c,cpp nnoremap <leader>vi :args ./**<cr>
 au filetype c,cpp nnoremap <leader>vg :Vimgrep 
 au filetype c,cpp nnoremap <leader>v/ :Vimgrep ///g<cr>
-
-" Lilypond general keybindings
-" Compile current file
-au filetype lilypond nnoremap <leader>c :w<cr>:!lilypond %<cr>
-" View pdf associated with current file
-au filetype lilypond nnoremap <leader>v :!zathura %:r.pdf &<cr>
-" play selected notes
-au filetype lilypond nnoremap <leader>p :set opfunc=LyPlay<CR>g@
-" TODO: vmap <silent> <F4> :<C-U>call CountSpaces(visualmode(), 1)<CR>
-" function to do heavy lifting
-function! LyPlay(type)
-    " Get notes specified by the motion
-    if a:type == 'line'
-        silent exe "normal! '[V']y"
-    else
-        silent exe "normal! `[v`]y"
-    endif
-
-    " Play them
-    let lycommand = "!lyplay italiano do \"<->\""
-    let lycommand = substitute(lycommand, "<->", @@, "")
-    exe lycommand
-endfunction
 
 """"""""""""""""
 " Nix settings "
@@ -439,7 +422,7 @@ tnoremap <Esc><Esc> <C-\><C-n>
 
 " Scheme stuff
 " Local leader.
-autocmd FileType scheme let maplocalleader = "ò"
+autocmd FileType scheme let maplocalleader = "à"
 " TODO: try w/ localleader
 nnoremap <leader>a mmggVG:SlimeSend<cr>'m
 

@@ -1,5 +1,17 @@
 {
     "languageserver": {
+        "racket": {
+            "command": "racket",
+            "args": [
+                "--lib",
+                "racket-langserver"
+            ],
+            "filetypes": [
+                "scheme",
+                "racket"
+            ]
+        },
+
         "haskell": {
             "command": "haskell-language-server-wrapper",
             "args": ["--lsp"],

@@ -16,12 +16,23 @@ lower = \relative c {
 }
 
 \score {
+
   \new PianoStaff \with { instrumentName = "Piano" }
   <<
     \new Staff = "upper" \upper
     \new Staff = "lower" \lower
   >>
+
   \layout { }
+
   \midi { }
 }
+endsnippet
+
+snippet ver "Obligatory version specification"
+\version "2.22.0"
+endsnippet
+
+snippet allbarnums "Set bar numbers in all possible places"
+\override Score.BarNumber.break-visibility = ##(#t #t #t)
 endsnippet

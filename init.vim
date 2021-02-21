@@ -5,6 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'sersorrel/vim-lilypond'
 Plug 'https://gitlab.com/n9n/vim-apl'
 Plug 'vimwiki/vimwiki'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -67,9 +68,6 @@ if has("nvim")
   tnoremap <ESC><ESC> <C-\><C-n>
   "! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
 endif
-
-" Sensible copy-pasting
-set clipboard=unnamedplus
 
 " Better navigation with relative line numbers
 set relativenumber
@@ -139,9 +137,7 @@ let g:ctrlp_show_hidden = 1
 
 " leader
 let mapleader = "à"
-
-" Sensible clipboard defaults
-set clipboard=unnamedplus
+let maplocalleader = "ò"
 
 " useful mappings
 nnoremap <S-Enter> O<Esc>
@@ -227,6 +223,8 @@ command Tex !/usr/bin/time ./Proj
 " Allow netrw to remove non-empty local directories
 let g:netrw_localrmdir='rm -r'
 autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>
+" Quickly enter ranger mode
+nnoremap _ :Ranger<cr>
 
 " TagBar settings
 " TODO: nmap <leader><leader> :TagbarToggle<CR><c-w><c-w>
@@ -364,14 +362,12 @@ au filetype haskell let g:hindent_on_save = 0
 " utility leader commands
 nnoremap <leader>tt :tabnew<cr>:term<cr>
 nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>pwd :!pwd \| xclip -selection clipboard<cr>
+command Clipwd !pwd \| xclip -selection clipboard<cr>
 
 " quick vimgrep command
 command -nargs=1 Vimgrep vimgrep <args> ##
-" NB: this initialization is customized for different languages
-au filetype c,cpp nnoremap <leader>vi :args ./**<cr>
-au filetype c,cpp nnoremap <leader>vg :Vimgrep 
-au filetype c,cpp nnoremap <leader>v/ :Vimgrep ///g<cr>
+nnoremap <leader>vg :Vimgrep 
+" NB: initialization for vimgrep to work properly is handled differently by different languages
 
 """"""""""""""""
 " Nix settings "
@@ -393,7 +389,11 @@ au filetype rust nnoremap <leader>vg :Vimgrep
 " Other useful keybindings
 au filetype rust nnoremap <leader>vi :args src/**<cr>
 
-"" C keybindings
+"" C/C++ keybindings
+au filetype c,cpp nnoremap <leader>vi :args ./**<cr>
+au filetype c,cpp nnoremap <leader>v/ :Vimgrep ///g<cr>
+
+"" C only keybindings
 au filetype c inoremap <c-c> <esc>:!gcc main.c<cr>i
 
 "" Racket keybindings
@@ -421,9 +421,6 @@ command GA Git A
 tnoremap <Esc><Esc> <C-\><C-n>
 
 " Scheme stuff
-" Local leader.
-autocmd FileType scheme let maplocalleader = "à"
-" TODO: try w/ localleader
 nnoremap <leader>a mmggVG:SlimeSend<cr>'m
 
 " Lance stuff

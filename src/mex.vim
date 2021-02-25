@@ -6,10 +6,6 @@
 "     echom "Error: ~/bin/yexp script required"
 " endif
 
-" Local leader for plan files
-" TODO: Find out why this doesn't work
-au BufRead,BufNewfile *.pln let maplocalleader = "à"
-
 " Process file with mex
 function MexStep()
   normal mm
@@ -24,10 +20,13 @@ function MexSetCC(cc)
   execute join([".!awk 'match($0, /^(.*):.>(.*)/, m) { print m[1] \":", a:cc, ">\" m[2] }'"], "")
 endfunction
 
+" Local leader
+au filetype mex let maplocalleader = 'ò'
+
 " Mappings
 " TODO: Make <localleader> work here
-nnoremap àu :call MexStep()<cr>
-nnoremap àce :call MexSetCC('E')<cr>f>w
-nnoremap àcc :call MexSetCC('E')<cr>f>w:MexStep<cr>
-nnoremap àcv :call MexSetCC('$')<cr>f>w
-nnoremap àcs :call MexSetCC('S')<cr>f>w
+au filetype mex nnoremap <localleader>u :call MexStep()<cr>
+au filetype mex nnoremap <localleader>ce :call MexSetCC('E')<cr>f>w
+au filetype mex nnoremap <localleader>cc :call MexSetCC('E')<cr>f>w:MexStep<cr>
+au filetype mex nnoremap <localleader>cv :call MexSetCC('$')<cr>f>w
+au filetype mex nnoremap <localleader>cs :call MexSetCC('S')<cr>f>w

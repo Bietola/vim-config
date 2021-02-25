@@ -1,6 +1,3 @@
-" Current pdf file to open when viewing score
-let s:score_file_name = ''
-
 """""""""""""
 " Functions "
 """""""""""""
@@ -15,27 +12,33 @@ endfunction
 
 function ViewScore()
     let l:view_command = 'zathura '. GetScoreFileName() . '.pdf' . ' &'
-    echom l:view_command
-    call system(l:view_command)
+    echom 'running:' l:view_command
+    echo system(l:view_command)
 endfunction
 command! ViewScore call ViewScore()
 
-function CompileScore()
-    " Update output file name
+function GetOutputFileName()
     let l:cfile = readfile(expand('%'))
     for line in l:cfile
         let m = matchlist(line, '\v\\bookOutputName "(.*)"')
         if len(m)
-            let s:score_file_name = m[1]
-            echom 'Changed score_file_name to ' . s:score_file_name
+            echom 'Output file name:' . m[1]
+            return m[1]
         endif
-        " TODO/CICCIO
     endfor
+
+    echom 'Output file name:' . expand('%:r')
+    return expand('%:r')
+endfunction
+
+function CompileScore()
+    " Update output file name
+    let s:score_file_name = GetOutputFileName()
 
     " Compile score
     let l:compile_command = join(['lilypond', expand('%')])
-    echom l:compile_command
-    call system(l:compile_command)
+    echom 'running:' l:compile_command
+    echo system(l:compile_command)
 endfunction
 command! CompileScore call CompileScore()
 
@@ -59,6 +62,15 @@ au filetype lilypond nnoremap <localleader>pa :!lyplay %:r.midi<cr>
 " Play only from specified bar
 au filetype lilypond nnoremap <localleader>pb :!lyplay %:r.midi<space>
 
-" Vim-surround settings
-nmap s ys
-au FileType lilypond let b:surround_45 = "<< \r >>"
+""""""""""""
+" Settings "
+""""""""""""
+
+" Vim-surround
+au filetype lilypond let b:surround_45 = "<< \r >>"
+
+""""""""""""""""
+" Autocommands "
+""""""""""""""""
+
+au filetype lilypond let s:score_file_name = GetOutputFileName()

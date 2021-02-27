@@ -4,18 +4,38 @@
 
 function GetScoreFileName()
     if s:score_file_name != ''
-        return s:score_file_name
+        return s:score_file_name . '.pdf'
     else
         return expand('%:r') . '.pdf'
     endif
 endfunction
 
+function GetMidiFileName()
+    if s:score_file_name != ''
+        return s:score_file_name . '.midi'
+    else
+        return expand('%:r') . '.midi'
+    endif
+endfunction
+
 function ViewScore()
-    let l:view_command = 'zathura '. GetScoreFileName() . '.pdf' . ' &'
+    let l:view_command = 'zathura '. GetScoreFileName() . ' &'
     echom 'running:' l:view_command
     echo system(l:view_command)
 endfunction
 command! ViewScore call ViewScore()
+
+function PlayMidiFromBar(start_bar)
+    let l:play_shell_command = 'lyplay '. GetMidiFileName() . ' ' . a:start_bar
+    echom 'running:' l:play_shell_command
+    execute '!' . l:play_shell_command
+endfunction
+command! -nargs=1 PlayMidiFromBar call PlayMidiFromBar(<args>)
+
+function PlayMidiAll()
+    call PlayMidiFromBar(1)
+endfunction
+command! PlayMidiAll call PlayMidiAll()
 
 function GetOutputFileName()
     let l:cfile = readfile(expand('%'))
@@ -50,17 +70,17 @@ command! CompileScore call CompileScore()
 au filetype lilypond let maplocalleader = "ò"
 
 " Compile current file
-" TODO/BU au filetype lilypond nnoremap <localleader>c :w<cr>:!lilypond %<cr>
 au filetype lilypond nnoremap <localleader>c :CompileScore<cr>
 
 " View pdf associated with current file
 au filetype lilypond nnoremap <localleader>v :ViewScore<cr>
 
 " Play all file with midi
-au filetype lilypond nnoremap <localleader>pa :!lyplay %:r.midi<cr>
+" TODO/BU au filetype lilypond nnoremap <localleader>pa :!lyplay %:r.midi<cr>
+au filetype lilypond nnoremap <localleader>pa :PlayMidiAll<cr>
 
 " Play only from specified bar
-au filetype lilypond nnoremap <localleader>pb :!lyplay %:r.midi<space>
+au filetype lilypond nnoremap <localleader>pb :PlayMidiFromBar<space>
 
 """"""""""""
 " Settings "

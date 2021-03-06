@@ -6,12 +6,20 @@
 snippet she "Stack script shebang"
 #!/usr/bin/env stack
 -- stack --resolver lts-12.21 script
+$0
+endsnippet
+
+snippet langext "Language extension"
+{-# LANGUAGE $1 #-}
+$0
 endsnippet
 
 snippet overstr "More types are treated like String"
 {-# LANGUAGE OverloadedStrings #-}
+$0
 endsnippet
 
 snippet db "Import debug library"
 import Debug.Trace
+$0
 endsnippet

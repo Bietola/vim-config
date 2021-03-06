@@ -225,6 +225,7 @@ command Tex !/usr/bin/time ./Proj
 " Allow netrw to remove non-empty local directories
 let g:netrw_localrmdir='rm -r'
 autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>
+autocmd FileType netrw nnoremap <localleader>r :Ranger<cr>
 " Quickly enter ranger mode
 nnoremap _ :Ranger<cr>
 

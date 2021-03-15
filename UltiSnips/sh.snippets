@@ -8,6 +8,18 @@ usage() {
 [[ $# -ne ${2:ARGS_NUM} ]] && usage
 endsnippet
 
+snippet parseflags "Parse flags"
+# Parse flags
+while [[ "\$1" =~ ^- && ! "\$1" == "--" ]]; do case \$1 in
+  -${1:SHORT_NAME} | --${2:LONG_NAME} )
+	${3:BODY}
+    ;;
+	${4:ETC...}
+esac; shift; done
+if [[ "\$1" == '--' ]]; then shift; fi
+$0
+endsnippet
+
 snippet assert "Exit if condition is false"
 ${1:CONDITION} || { echo ${2:ERR_MSG}; exit 1; }
 $0
@@ -21,4 +33,8 @@ endsnippet
 snippet import "Assert that program exists"
 command -v ${1:PROGRAM_NAME} &>/dev/null || { echo "Please install $1 to continue"; exit 1; }
 $0
+endsnippet
+
+snippet sul "The Great Script Utility Library"
+sul="/config/utils/bin"
 endsnippet

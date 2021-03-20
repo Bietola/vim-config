@@ -62,6 +62,32 @@ function CompileScore()
 endfunction
 command! CompileScore call CompileScore()
 
+function PlayNote(alda_note)
+    " TODO/WIP
+    let l:play_command = 'alda play -c "piano: ' . a:alda_note . '"'
+    echom 'running:' l:play_command
+    silent exec '!' . l:play_command
+endfunction
+
+function CreateNoteBindings()
+    for note in ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+        for acc in ['+', '-', '']
+            if acc == ''
+                let bind_lead = 'n'
+            else
+                let bind_lead = acc
+            endif
+
+            execute 'nnoremap <localleader>' . bind_lead . note . ' :call PlayNote("' . note . acc . '")<cr>'
+        endfor
+    endfor
+endfunction
+
+function StartAldaServer()
+    echo system('alda up')
+endfunction
+command! StartAldaServer call StartAldaServer()
+
 """""""""""""""
 " Keybindings "
 """""""""""""""
@@ -77,10 +103,16 @@ au filetype lilypond nnoremap <localleader>v :ViewScore<cr>
 
 " Play all file with midi
 " TODO/BU au filetype lilypond nnoremap <localleader>pa :!lyplay %:r.midi<cr>
-au filetype lilypond nnoremap <localleader>pa :PlayMidiAll<cr>
+au filetype lilypond nnoremap <localleader>a :PlayMidiAll<cr>
 
 " Play only from specified bar
-au filetype lilypond nnoremap <localleader>pb :PlayMidiFromBar<space>
+au filetype lilypond nnoremap <localleader>b :PlayMidiFromBar<space>
+
+" Play specified musical note
+au filetype lilypond call CreateNoteBindings()
+
+" Play only from specified bar
+au filetype lilypond nnoremap <localleader>A :StartAldaServer<cr>
 
 """"""""""""
 " Settings "

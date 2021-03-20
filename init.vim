@@ -36,7 +36,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'jpalardy/vim-slime'
-Plug 'vim-scripts/DrawIt'
 Plug 'AndrewRadev/sideways.vim'
 " Plug 'Valloric/YouCompleteMe' (RIP)
 Plug 'majutsushi/tagbar'
@@ -365,6 +364,8 @@ au filetype haskell let g:hindent_on_save = 0
 " utility leader commands
 nnoremap <leader>tt :tabnew<cr>:term<cr>
 nnoremap <leader>tn :tabnew<cr>
+nnoremap gu {
+nnoremap gd }
 command Clipwd !pwd \| xclip -selection clipboard<cr>
 
 " quick vimgrep command

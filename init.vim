@@ -447,7 +447,9 @@ syntax on
 """"""""""""""""""""""""""""""""""""""""""""
 let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
 
-for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
-    exe "source" src_file
-    " echom "loaded " src_file
-endfor
+if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
+    for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
+        exe "source" src_file
+        " echom "loaded " src_file
+    endfor
+endif

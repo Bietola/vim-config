@@ -1,6 +1,13 @@
 function OpenRecentProj()
     browse oldfiles
-    cd %:p:h
+    
+    echom expand('%:p')
+
+    if isdirectory(expand('%:p'))
+        cd %:p
+    else
+        cd %:p:h
+    endif
 endfunction
 command! OpenRecentProj call OpenRecentProj()
 

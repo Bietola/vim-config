@@ -451,7 +451,3 @@ for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
     exe "source" src_file
     " echom "loaded " src_file
 endfor
-
-" Mapping for loading scripts by name
-nnoremap <leader>s :LoadScripts<cr>
-command LoadScripts exe 'e' g:external_conf_scripts_dir

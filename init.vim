@@ -8,7 +8,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sersorrel/vim-lilypond'
-Plug 'https://gitlab.com/n9n/vim-apl'
 Plug 'vimwiki/vimwiki'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'daveyarwood/vim-alda'

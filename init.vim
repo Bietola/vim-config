@@ -5,6 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'tidalcycles/vim-tidal'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sersorrel/vim-lilypond'
@@ -198,9 +199,10 @@ nnoremap zq :wq<cr>
 " default path
 set path+=../**
 
-" menu options
+" Some quality of life options
 set wildmenu
 set number
+let g:netrw_keepdir=0
 
 " no idea... (should research)
 set timeoutlen=10000

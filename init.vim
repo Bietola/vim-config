@@ -162,8 +162,7 @@ colorscheme iceberg
 set guifont=Consolas:h17
 nnoremap <leader>m :colorscheme morning<cr>
 
-" tab (those akin to windows...) settings and custom commands
-au TabEnter * if exists("t:wd") | exe "cd" t:wd | endif
+" Airline settings
 let g:airline_powerline_fonts = 1
 
 " whitespace (tab/backspace) things
@@ -447,6 +446,7 @@ syntax on
 " External vimscript configuration scripts "
 """"""""""""""""""""""""""""""""""""""""""""
 let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
+exe 'cd' g:external_conf_scripts_dir
 
 if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
     for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
@@ -454,3 +454,5 @@ if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
         " echom "loaded " src_file
     endfor
 endif
+
+cd -

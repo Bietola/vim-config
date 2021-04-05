@@ -56,4 +56,5 @@ endfunc
 
 nnoremap <leader><leader> :call EditRC()<cr>
 nnoremap <leader>s :call EditSrcFile()<cr>
-nnoremap <localleader><localleader> :w<cr>:so %<cr>
+
+nnoremap <localleader>s :w<cr>:so %<cr>

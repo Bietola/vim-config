@@ -446,8 +446,17 @@ syntax on
 " External vimscript configuration scripts "
 """"""""""""""""""""""""""""""""""""""""""""
 let g:external_conf_scripts_dir = fnamemodify($MYVIMRC, ":h")."/src"
+
+" Enter script directory so that relative script imports work
+let s:vim_execution_path = expand('%:p:h')
 exe 'cd' g:external_conf_scripts_dir
 
+" Setup python `sys.path` properly so that relative python imports in `py`
+" folder work
+" TODO
+py3 sys.path.append(vim.eval('g:external_conf_scripts_dir'))
+
+" Load subscripts
 if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
     for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
         exe "source" src_file
@@ -455,4 +464,5 @@ if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
     endfor
 endif
 
-cd -
+" Return to folder from which vim was called
+exe 'cd' s:vim_execution_path

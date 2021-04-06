@@ -1,9 +1,8 @@
 import vim
-import re
 
-term_buf_re = re.compile(r'^term:.*/bin/bash$')
-def find_term_buffers():
-    return filter(
-        lambda b: term_buf_re.match(b.name),
-        vim.buffers
-    )
+def errmsg(msg, fatal=False, exit_val=1):
+    vim.command('echom "ERROR: ' + msg + '"')
+
+    assert not fatal, msg
+
+    return exit_val

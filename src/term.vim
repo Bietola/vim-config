@@ -1,13 +1,23 @@
-py3file ./py/utils.py
+source ./pyimport.vim
+PyImport './py/vim_utils.py'
 
-func OpenTermBuf()
-    redir => l:term_buf
-    py3 print(next(find_term_buffers()).number)
-    redir END
-    let l:term_buf = l:term_buf[1:]
+func! FindNextTermBuf()
+    return py3eval('find_next_term_buf()')
+endfunc
+command! FindNextTermBuf call FindNextTermBuf()
 
-    exe 'echom "there you go: ' . l:term_buf . '"'
+func! OpenTermBuf()
+    let l:term_buf = FindNextTermBuf()
+
+    exe 'echom "Switching to: ' . l:term_buf . '"'
     exe 'b ' . l:term_buf
+endfunc
+
+func! GotoTermBuf()
+    let l:term_buf = FindNextTermBuf()
+
+    exe 'echom "Jumping to: ' . l:term_buf . '"'
+    call win_gotoid(win_findbuf(l:term_buf))
 endfunc
 
 for [cmd, when_inside_term] in [['t', 'i'], ['l', 'i!!<cr>']]

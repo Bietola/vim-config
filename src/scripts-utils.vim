@@ -55,6 +55,8 @@ func GoBack()
 endfunc
 
 nnoremap <leader><leader> :call EditRC()<cr>
-nnoremap <leader>s :call EditSrcFile()<cr>
+nnoremap <leader>S :call EditSrcFile()<cr>
+" TODO: Use opfunc to define this
+" nnoremap <leader>s :source<cr>
 
 nnoremap <localleader>s :w<cr>:so %<cr>

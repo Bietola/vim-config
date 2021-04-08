@@ -36,7 +36,7 @@ func! SetOpFunV(fn, motion_key = 'y')
     call s:MapOverOp(a:fn, a:motion_key, visualmode(), 1)
 endfunc
 
-func! SetOpNorm(norm_comm, motion_key = 'y')
+func! SetOpNorm(norm_comm, motion_key = 'y', end_w_insert = '')
     func! OpFun(type, ...) closure
         func! NormFun(sel) closure
             " NB. Using `a:sel` directly in mapings seems to magically work...
@@ -45,8 +45,11 @@ func! SetOpNorm(norm_comm, motion_key = 'y')
             " let g:sel = a:sel
             sil exe 'normal!' a:norm_comm
 
-            " TODO: Make autoinsertmode at the end optional
-            " startinsert
+            if a:end_w_insert ==# 'i'
+                startinsert
+            elseif a:end_w_insert ==# 'A'
+                startinsert!
+            endif
             " Find out why this is needed...
             " sil exe "normal! \<del>"
         endfunc
@@ -55,9 +58,8 @@ func! SetOpNorm(norm_comm, motion_key = 'y')
     set opfunc=OpFun
 endfunc
 
-func! SetOpNormV(norm_comm, motion_key = 'y')
-    func! NormFun(sel)
-        let g:sel = a:sel
+func! SetOpNormV(norm_comm, motion_key = 'y', end_w_insert = '')
+    func! NormFun(sel) closure
         sil exe 'normal!' a:norm_comm
     endfunc
     call s:MapOverOp(function('NormFun'), a:motion_key, visualmode(), 1)
@@ -78,7 +80,7 @@ func! OpMap(keycomb, norm_comm, flags = '')
 
     " Parse flags
     let l:motion_key = 'y'
-    let l:finish_w_insert = v:false
+    let l:end_w_insert = ''
     for l:flag in split(a:flags, '\zs')
         if l:flag ==# 'y'
             let l:motion_key = 'y'
@@ -87,12 +89,15 @@ func! OpMap(keycomb, norm_comm, flags = '')
             let l:motion_key = 'd'
         endif
         if l:flag ==# 'i'
-            let l:finish_w_insert = v:true
+            let l:end_w_insert = 'i'
+        endif
+        if l:flag ==# 'A'
+            let l:end_w_insert = 'A'
         endif
     endfor
 
-    exe 'nnoremap' a:keycomb ':call' StrFunDQ('SetOpNorm', l:norm_comm, l:motion_key) '<cr>g@'
-    exe 'vnoremap' a:keycomb ':<c-u>call' StrFunDQ('SetOpNormV', l:norm_comm, l:motion_key) '<cr>g@'
+    exe 'nnoremap' a:keycomb ':call' StrFunDQ('SetOpNorm', l:norm_comm, l:motion_key, l:end_w_insert) '<cr>g@'
+    exe 'vnoremap' a:keycomb ':<c-u>call' StrFunDQ('SetOpNormV', l:norm_comm, l:motion_key, l:end_w_insert) '<cr>g@'
 endfunc
 command! -nargs=* OpMap call OpMap(<f-args>)
 
@@ -100,10 +105,11 @@ command! -nargs=* OpMap call OpMap(<f-args>)
 
 " Paste selection at end of line
 
-OpMap <leader>T A<space><c-r>=a:sel<cr> di
+OpMap <leader>T A<space><c-r>=a:sel<cr> d
+nmap <leader>Y <leader>TaW
 
 " Same Thing with `OpFunMap`
 " func! Test(sel)
 "     exe 'normal! A<c-r>=a:sel<cr>'
 " endfunc
-" OpFunMap <leader>Y Test
+" OpFunMap <leader>U Test

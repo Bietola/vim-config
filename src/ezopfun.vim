@@ -5,6 +5,8 @@ func! PythonNextPlaceholder()
 endfunc
 
 func! s:MapOverOp(fn, motion_key, type, ...)
+    echom "DB:" a:motion_key
+
     let sel_save = &selection
     let &selection = 'inclusive'
     let reg_save = @@
@@ -26,7 +28,7 @@ endfunc
 func! SetOpFun(fn, motion_key = 'y')
     let l:fn = a:fn
     let l:motion_key = a:motion_key
-    func! OpFun(type, ...)
+    func! OpFun(type, ...) closure
         call function('s:MapOverOp', [l:fn, l:motion_key, a:type] + a:000)()
     endfunc
     set opfunc=OpFun
@@ -39,8 +41,8 @@ endfunc
 func! SetOpNorm(norm_comm, motion_key = 'y')
     let l:norm_comm = a:norm_comm
     let l:motion_key = a:motion_key
-    func! OpFun(type, ...)
-        func! NormFun(sel)
+    func! OpFun(type, ...) closure
+        func! NormFun(sel) closure
             " NB. Using `a:sel` directly in mapings seems to magically work...
             "     I'm leaving this comment here for eventual magical errors
             "     in the future that might require a `g:sel` comeback.
@@ -48,9 +50,9 @@ func! SetOpNorm(norm_comm, motion_key = 'y')
             sil exe 'normal!' l:norm_comm
 
             " TODO: Make autoinsertmode at the end optional
-            startinsert
+            " startinsert
             " Find out why this is needed...
-            sil exe "normal! \<del>"
+            " sil exe "normal! \<del>"
         endfunc
         call function('s:MapOverOp', [function('NormFun'), l:motion_key, a:type] + a:000)()
     endfunc
@@ -79,8 +81,8 @@ func! OpMap(keycomb, norm_comm, motion_key = 'y')
     " command (see `:h expr-quote`)
     let l:norm_comm = substitute(l:norm_comm, '\(<.\{-}>\)', '\\\1', 'g')
 
-    exe 'nnoremap' a:keycomb ':call SetOpNorm("' l:norm_comm '", "' . a:motion_key . '")<cr>g@'
-    exe 'vnoremap' a:keycomb ':<c-u>call SetOpNormV("' l:norm_comm '", "' . a:motion_key . '")<cr>g@'
+    exe 'nnoremap' a:keycomb ':call SetOpNorm("' . l:norm_comm .  '", "' . a:motion_key . '")<cr>g@'
+    exe 'vnoremap' a:keycomb ':<c-u>call SetOpNormV("' . l:norm_comm . '", "' . a:motion_key . '")<cr>g@'
 endfunc
 command! -nargs=* OpMap call OpMap(<f-args>)
 

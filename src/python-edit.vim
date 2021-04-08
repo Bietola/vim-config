@@ -10,3 +10,8 @@ let maplocalleader = 'ò'
 
 OpMap <localleader>F ifstream<c-r>=UltiSnips#ExpandSnippet()<cr><c-r>=a:sel<cr><c-r>=UltiSnips#JumpForwards()<cr>
 
+(
+    ,
+    hello_therer
+)
+hello_therer

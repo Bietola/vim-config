@@ -5,8 +5,6 @@ func! PythonNextPlaceholder()
 endfunc
 
 func! s:MapOverOp(fn, motion_key, type, ...)
-    echom "DB:" a:motion_key
-
     let sel_save = &selection
     let &selection = 'inclusive'
     let reg_save = @@
@@ -74,15 +72,27 @@ func! OpFunMap(keycomb, str_fn, motion_key = 'y')
 endfunc
 command! -nargs=* OpFunMap call OpFunMap(<f-args>)
 
-func! OpMap(keycomb, norm_comm, motion_key = 'y')
+func! OpMap(keycomb, norm_comm, flags = '')
     " So that `xnoremap` command doesn't interpret them as literal keypresses
     let l:norm_comm = substitute(a:norm_comm, '<', '<lt>', 'g')
     " So that they are ready for the subsequent `exe 'normal!' norm_comm`
     " command (see `:h expr-quote`)
     let l:norm_comm = substitute(l:norm_comm, '\(<.\{-}>\)', '\\\1', 'g')
 
-    exe 'nnoremap' a:keycomb ':call SetOpNorm("' . l:norm_comm .  '", "' . a:motion_key . '")<cr>g@'
-    exe 'vnoremap' a:keycomb ':<c-u>call SetOpNormV("' . l:norm_comm . '", "' . a:motion_key . '")<cr>g@'
+    " Parse flags
+    let l:motion_key = 'y'
+    let l:finish_w_insert = v:false
+    for flag in split(a:flags, '\zs')
+        if flag ==# 'd'
+            let l:motion_key = 'd'
+        endif
+        if flag ==# 'i'
+            let l:finish_w_insert = v:true
+        endif
+    endfor
+
+    exe 'nnoremap' a:keycomb ':call SetOpNorm("' . l:norm_comm .  '", "' . l:motion_key . '")<cr>g@'
+    exe 'vnoremap' a:keycomb ':<c-u>call SetOpNormV("' . l:norm_comm . '", "' . l:motion_key . '")<cr>g@'
 endfunc
 command! -nargs=* OpMap call OpMap(<f-args>)
 

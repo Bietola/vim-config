@@ -1,6 +1,9 @@
 source ./pyimport.vim
 PyImport './py/vim_utils.py'
 
+" TODO: Educate on localleaders
+au BufEnter * if &buftype == 'terminal' | let maplocalleader = 'ò' | endif
+
 func! FindNextTermBuf()
     return py3eval('find_next_term_buf()')
 endfunc
@@ -28,4 +31,5 @@ exe 'nnoremap <leader>' . cmd . 'S <c-w>S<c-w>J:call OpenTermBuf()<cr>'        .
 exe 'nnoremap <leader>' . cmd . 's <c-w>S<c-w>J8<c-w>-:call OpenTermBuf()<cr>' . when_inside_term
 endfor
 
-tnoremap <leader>q <c-\><c-n>:q<cr>
+tnoremap <localleader>e <c-\><c-n>
+tnoremap <localleader>q <c-\><c-n>:q<cr>

@@ -1,15 +1,13 @@
 source ./funutils.vim
 
-func! PythonNextPlaceholder()
-    call search('<-->')
-    execute 'normal! diW'
-    startinsert!
-endfunc
-
 func! s:MapOverOp(fn, motion_key, type, ...)
     let sel_save = &selection
     let &selection = 'inclusive'
     let reg_save = @@
+
+    " Save selection range
+    let l:sel_start = getpos("`[")
+    let l:sel_end = getpos("`]")
 
     if a:0  " Invoked from Visual mode, use gv command.
         silent exe 'normal! gv' . a:motion_key
@@ -19,7 +17,7 @@ func! s:MapOverOp(fn, motion_key, type, ...)
         silent exe 'normal! `[v`]' . a:motion_key
     endif
 
-    call a:fn(@@)
+    call a:fn(@@, sel_start, sel_end)
 
     let &selection = sel_save
     let @@ = reg_save
@@ -38,11 +36,13 @@ endfunc
 
 func! SetOpNorm(norm_comm, motion_key = 'y', end_w_insert = '')
     func! OpFun(type, ...) closure
-        func! NormFun(sel) closure
-            " NB. Using `a:sel` directly in mapings seems to magically work...
+        func! NormFun(sel_v, sel_beg, sel_end) closure
+            " NB. Using `a:sel_v` directly in mapings seems to magically work...
             "     I'm leaving this comment here for eventual magical errors
-            "     in the future that might require a `g:sel` comeback.
-            " let g:sel = a:sel
+            "     in the future that might require a `g:sel_v` comeback.
+            " let g:sel_v = a:sel_v
+            "
+            " ANB. Same for `sel_beg` and `sel_end`
             sil exe 'normal!' a:norm_comm
 
             if a:end_w_insert ==# 'i'
@@ -104,12 +104,15 @@ command! -nargs=* OpMap call OpMap(<f-args>)
 " EXAMPLES
 
 " Paste selection at end of line
+OpMap <leader>Ta A<space><c-r>=a:sel_v<cr> d
+nmap <leader>Tb <leader>TaW
 
-OpMap <leader>T A<space><c-r>=a:sel<cr> d
-nmap <leader>Y <leader>TaW
+" Substitute everything within selection with `lol`
+" TODO/CC: Make this test work
+OpMap <leader>Tc
 
-" Same Thing with `OpFunMap`
-" func! Test(sel)
-"     exe 'normal! A<c-r>=a:sel<cr>'
+" " Same Thing with `OpFunMap`
+" func! Test(sel_v, sel_beg, sel_end)
+"     exe 'normal! A<c-r>=a:sel_v<cr>'
 " endfunc
-" OpFunMap <leader>U Test
+" OpFunMap <leader>Td Test

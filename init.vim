@@ -25,7 +25,7 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tommcdo/vim-exchange'
 Plug 'gyim/vim-boxdraw'
-Plug 'kana/vim-tabpagecd'
+" Plug 'kana/vim-tabpagecd'
 Plug 'Raimondi/delimitMate'
 Plug 'szw/vim-tags'
 Plug 'tpope/vim-surround'
@@ -149,11 +149,6 @@ vnoremap <leader>tab :Tabularize
 " sideways mappings
 nnoremap <leader>H :SidewaysLeft<CR>
 nnoremap <leader>L :SidewaysRight<CR>
-" vimrc management
-" TODO: Make a boxes related plugin
-au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
-au filetype vim nnoremap <leader>bb V:'<,'>!boxes -d vim<cr>
-au filetype vim nnoremap <leader>bm vip:'<,'>!boxes -d vim -m<cr>
 
 " terminal looks
 set background=dark
@@ -168,6 +163,7 @@ let g:airline_powerline_fonts = 1
 " whitespace (tab/backspace) things
 set tabstop=4
 set shiftwidth=4
+set expandtab
 set backspace=indent,eol,start
 
 " fancy lines numbers
@@ -376,11 +372,6 @@ au filetype nix set foldmethod=indent
 " Cargo
 au filetype rust nnoremap <leader><leader>r :!cargo run<cr>
 au filetype rust nnoremap <leader><leader>t :!cargo test<cr>
-" Boxes
-au filetype rust vnoremap <leader>b :'<,'>!boxes<cr>
-au filetype rust nnoremap <leader>bb V:'<,'>!boxes<cr>
-au filetype rust nnoremap <leader>bm vip:'<,'>!boxes -m<cr>
-au filetype rust nnoremap <leader>vg :Vimgrep 
 " Other useful keybindings
 au filetype rust nnoremap <leader>vi :args src/**<cr>
 
@@ -400,10 +391,6 @@ au filetype racket nnoremap <leader>fm :echo "WIP"<cr>
 " Slime
 au filetype haskell nnoremap <leader>trw :vsp<cr>:term ghci<cr>:echo b:terminal_job_id<cr><c-w><c-l>
 au filetype haskell nnoremap <leader>trt :tabnew<cr>:term ghci<cr>:echo b:terminal_job_id<cr>gT
-" Comments
-au filetype haskell vnoremap <leader>b :'<,'>!boxes -d ada-box<cr>
-au filetype haskell vnoremap <leader>bm V:'<,'>!boxes -m<cr>
-au filetype haskell nnoremap <leader>bb V:'<,'>!boxes -d ada-box<cr>
 " Automatic formatting
 au filetype haskell nnoremap <leader>fm :Hindent<cr>
 " Tabular

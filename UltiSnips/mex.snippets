@@ -10,3 +10,10 @@ vel:$> ${( $.todo - $.backlog - $.prework ) / $total-study-days }
 weekly-vel:$> ${ $.vel * (7/$study-days-pw) }
 progress:$> ${ $.read.total }(${ $.read.total - $.skipped.total })/${ $.vel * $current-study-day } | ${ $.todo }
 endsnippet
+
+snippet exam-sessions ""
+exam-sessions:
+	work-unit:$> ${ ${1:WORK_WITHOUT_SESSIONS} / $total-study-sessions }
+	num: ${2:NUM_OF_SESSIONS}
+	total:$> ${ $.work-unit * $.num }
+endsnippet

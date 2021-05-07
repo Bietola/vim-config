@@ -57,7 +57,7 @@ endfunc
 au filetype mex nnoremap <localleader>t :call TabularizeMexSchedule()<cr>
 
 " Git mappings
-au filetype mex nnoremap <localleader>g1 :!git add -A<cr>:Git commit -m "Initial"<cr>
-au filetype mex nnoremap <localleader>g2 :!git add -A<cr>:Git commit -m "Update"<cr>
-au filetype mex nnoremap <localleader>g3 :!git add -A<cr>:Git commit -m "Final"<cr>
-au filetype mex nnoremap <localleader>ga :!git commit --amend --no-edit<cr>
+au filetype mex nnoremap <localleader>g1 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Initial"<cr>
+au filetype mex nnoremap <localleader>g2 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Update"<cr>
+au filetype mex nnoremap <localleader>g3 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Final"<cr>
+au filetype mex nnoremap <localleader>ga :cd %:p:h<cr>:!git commit --amend --no-edit<cr>

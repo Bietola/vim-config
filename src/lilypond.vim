@@ -56,9 +56,11 @@ function CompileScore()
     let s:score_file_name = GetOutputFileName()
 
     " Compile score
-    let l:compile_command = join(['lilypond', expand('%')])
+    exe 'cd' expand('%:p:h')
+    let l:compile_command = join(['lilypond', expand('%:p')])
     echom 'running:' l:compile_command
     echo system(l:compile_command)
+    cd -
 endfunction
 command! CompileScore call CompileScore()
 
@@ -84,7 +86,7 @@ function CreateNoteBindings()
 endfunction
 
 function StartAldaServer()
-    echo system('alda up')
+    echom system('alda up')
 endfunction
 command! StartAldaServer call StartAldaServer()
 
@@ -96,7 +98,7 @@ command! StartAldaServer call StartAldaServer()
 au filetype lilypond let maplocalleader = "ò"
 
 " Compile current file
-au filetype lilypond nnoremap <localleader>c :CompileScore<cr>
+au filetype lilypond nnoremap <localleader>c :w<cr>:CompileScore<cr>
 
 " View pdf associated with current file
 au filetype lilypond nnoremap <localleader>v :ViewScore<cr>
@@ -111,7 +113,7 @@ au filetype lilypond nnoremap <localleader>b :PlayMidiFromBar<space>
 " Play specified musical note
 au filetype lilypond call CreateNoteBindings()
 
-" Play only from specified bar
+" Start **alda** server
 au filetype lilypond nnoremap <localleader>A :StartAldaServer<cr>
 
 """"""""""""

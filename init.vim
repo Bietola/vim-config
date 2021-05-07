@@ -147,8 +147,8 @@ nnoremap <CR> o<Esc>
 nnoremap <leader>tab :Tabularize 
 vnoremap <leader>tab :Tabularize 
 " sideways mappings
-nnoremap <leader>h :SidewaysLeft<CR>
-nnoremap <leader>l :SidewaysRight<CR>
+nnoremap <leader>H :SidewaysLeft<CR>
+nnoremap <leader>L :SidewaysRight<CR>
 " vimrc management
 " TODO: Make a boxes related plugin
 au filetype vim vnoremap <leader>b :'<,'>!boxes -d vim<cr>
@@ -248,13 +248,6 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 " directory
 " set runtimepath^=~/.vim
 " let g:UltiSnipsSnippetsDirectories=[$HOME.'/.vim/UltiSnips']
-
-" Ultisnips
-let g:UltiSnipsExpandTrigger = "<c-j>"
-let g:UltiSnipsListSnippets = "<c-tab>"
-let g:UltiSnipsJumpForwardTrigger = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
-nnoremap <leader>es :UltiSnipsEdit<cr>
 
 " vim-slime options
 let g:slime_target = "neovim"
@@ -362,8 +355,6 @@ au FileType python set autoindent
 au filetype haskell let g:hindent_on_save = 0
 
 " utility leader commands
-nnoremap <leader>tt :tabnew<cr>:term<cr>
-nnoremap <leader>tn :tabnew<cr>
 nnoremap gu {
 nnoremap gd }
 command Clipwd !pwd \| xclip -selection clipboard<cr>

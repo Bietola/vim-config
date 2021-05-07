@@ -1,0 +1,12 @@
+snippet tmp-sprog ""
+- NB. Until mex upgrade
+study-session-n: 2
+session-expected-prog:$> ${ $.study-session-n * $.weekly-vel }
+endsnippet
+
+snippet prog ""
+todo:$> ${ $.slides.total - $.read.extra - $.backlog - $.prework }
+vel:$> ${( $.todo - $.backlog - $.prework ) / $total-study-days }
+weekly-vel:$> ${ $.vel * (7/$study-days-pw) }
+progress:$> ${ $.read.total }(${ $.read.total - $.skipped.total })/${ $.vel * $current-study-day } | ${ $.todo }
+endsnippet

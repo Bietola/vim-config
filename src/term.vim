@@ -23,6 +23,9 @@ func! GotoTermBuf()
     call win_gotoid(win_findbuf(l:term_buf))
 endfunc
 
+" TODO: Educate on localleaders
+au BufEnter * if &buftype == 'terminal' | let maplocalleader = 'ò' | endif
+
 for [cmd, when_inside_term] in [['t', 'i'], ['l', 'i!!<cr>']]
 exe 'nnoremap <leader>' . cmd . 'i :call OpenTermBuf()<cr>'                    . when_inside_term
 exe 'nnoremap <leader>' . cmd . 't :tabnew<cr>:call OpenTermBuf()<cr>'         . when_inside_term

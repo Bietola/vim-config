@@ -1,21 +1,28 @@
 snippet talon "template for talon module"
 from talon import Module, Context
 
-${1:imports}
-
 mod = Module()
 ctx = Context()
-
-@mod.action_class
-class Actions:
-    def ${2:action_name}():
-        "${3:DESCRIPTION}"
-        "${4:BODY}"
 endsnippet
 
-snippet fstream "Generic functional programming stream"
+snippet stream "Generic functional programming stream"
 $2(
 	$3,
 	$1
 )
+endsnippet
+
+snippet forline "Read a file line by line"
+with open(${1:FILENAME}) as f:
+	for line in f:
+		line = line.strip()
+
+		${0:BODY}
+endsnippet
+
+snippet forstd "Read stdin line by line" b
+for line in sys.stdin:
+	line = line.strip()
+
+	${0:BODY}
 endsnippet

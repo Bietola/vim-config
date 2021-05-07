@@ -26,6 +26,8 @@ endfunc
 func EditSrcFile()
     call s:SavePosition()
     nnoremap <leader><leader> :call GoBack()<cr>
+    execute 'cd' g:external_conf_scripts_dir
+    args * $MYVIMRC
     execute 'edit' g:external_conf_scripts_dir
 endfunc
 

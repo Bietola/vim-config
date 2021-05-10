@@ -1,10 +1,43 @@
+############
+# Shebangs #
+############
+
 snippet she
 #!/bin/sh
 endsnippet
 
 snippet she.hs "Stack script shebang"
 #!/usr/bin/env stack
--- stack --resolver lts-12.21 script
+{- stack script
+    --resolver lts-17.10
+    --package turtle
+    --package foldl
+    --package text
+    --package pretty-show
+    --package lens
+    --package lens-regex-pcre
+-}
+
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE BlockArguments #-}
+
+import Prelude hiding (tail, head)
+import qualified Data.List as L
+import Data.Functor
+import Control.Lens
+import Control.Lens.Regex.Text
+import qualified Control.Foldl as Fl
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+import Text.Show.Pretty
+import Turtle hiding ((<&>), match, view)
+import qualified Turtle as Sh (view)
+import qualified Turtle.Pattern as ShP
+
+$0
 endsnippet
 
 snippet she.py "Python script shebang"

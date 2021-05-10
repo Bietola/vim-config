@@ -3,20 +3,39 @@
 # 				${0:#statements}
 # fi
 
+###########
+# Imports #
+###########
+
+snippet idb "Import debug library"
+import Debug.Trace
+$0
+endsnippet
+
 snippet ire "Import regex library"
 import qualified Text.Regex.PCRE.Heavy as R
 import Text.Regex.PCRE.Heavy (re)
+$0
 endsnippet
 
 snippet itxt "Import regex library"
 import qualified Data.Text as T
+$0
 endsnippet
+
+###########
+# Scripts #
+###########
 
 snippet she "Stack script shebang"
 #!/usr/bin/env stack
 -- stack --resolver lts-12.21 script
 $0
 endsnippet
+
+#######################
+# Language Extensions #
+#######################
 
 snippet langext "Language extension"
 {-# LANGUAGE $1 #-}
@@ -28,9 +47,22 @@ snippet overstr "More types are treated like String"
 $0
 endsnippet
 
-Imports
+#############
+# Simple IO #
+#############
 
-snippet db "Import debug library"
-import Debug.Trace
-$0
+snippet puts "putStr"
+putStr
+endsnippet
+
+snippet tputl "T.putStrLn"
+putStrLn
+endsnippet
+
+snippet putl "putStrLn"
+putStrLn
+endsnippet
+
+snippet tputs "T.putStr"
+putStr
 endsnippet

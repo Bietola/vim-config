@@ -2,7 +2,7 @@ let s:this_script_path = expand('<sfile>:p')
 
 au filetype vim let maplocalleader = 'ò'
 
-func s:SourceVimrcWithoutScripts()
+func! s:SourceVimrcWithoutScripts()
     let l:old = exists('g:dont_load_subscripts') ? g:dont_load_subscripts : 0
     let g:dont_load_subscripts = 1
 
@@ -11,27 +11,30 @@ func s:SourceVimrcWithoutScripts()
     let g:dont_load_subscripts = l:old
 endfunc
 
-func s:SavePosition()
+func! s:SavePosition()
+    let s:cwd_save = getcwd()
+
     if expand('%:p') !=# $MYVIMRC && expand('%:p:h') != g:external_conf_scripts_dir
         execute 'normal! mB'
     endif
 endfunc
 
-func EditRC()
+func! EditRC()
     call s:SavePosition()
     nnoremap <leader><leader> :call GoBack()<cr>
-    execute 'edit $MYVIMRC'
+    exe 'tabnew $MYVIMRC'
 endfunc
 
-func EditSrcFile()
+func! EditSrcFile()
     call s:SavePosition()
     nnoremap <leader><leader> :call GoBack()<cr>
-    execute 'cd' g:external_conf_scripts_dir
-    args * $MYVIMRC
-    execute 'edit' g:external_conf_scripts_dir
+    exe 'cd' g:external_conf_scripts_dir
+    exe 'tabnew'
+    arglocal * $MYVIMRC
+    exe 'edit' g:external_conf_scripts_dir
 endfunc
 
-func GoBack()
+func! GoBack()
     if &readonly == 'noreadonly'
         write
 
@@ -39,7 +42,7 @@ func GoBack()
             " Here to avoid errors due to expansions of empty % not working
             echom "WARNING: coming back from empty filename (SHOULD NOT BE POSSIBLE)"
         elseif expand('%:p') ==# $MYVIMRC
-            " Nout sourcing the sources in the src folder is mainly done 
+            " Not sourceing the sources in the src folder is mainly done 
             " to avoid the error that comes with sourcing this function as
             " it's in use.
             call s:SourceVimrcWithoutScripts()
@@ -53,7 +56,9 @@ func GoBack()
 
     nnoremap <leader><leader> :call EditRC()<cr>
 
-    execute 'normal! `B'
+    exe 'cd' s:cwd_save
+    quit
+    exe 'normal! `B'
 endfunc
 
 nnoremap <leader><leader> :call EditRC()<cr>

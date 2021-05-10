@@ -1,25 +1,36 @@
 " Boxed comments for fancy persons
 
-func! MakeBoxMappings(ft)
-    OpMap gb :
-    " au filetype a:ft vnoremap gb :'<,'>!boxes -d vim<cr>
-    " au filetype a:ft nnoremap gbb V:'<,'>!boxes -d vim<cr>
-    " au filetype a:ft nnoremap gbm vip:'<,'>!boxes -d vim -m<cr>
+source ./ezopfun.vim
+
+func! MakeBoxMappings(box_design = 'c')
+    let l:flags = []
+
+    " Box design
+    call add(l:flags, '-d ' . a:box_design)
+
+    " Box creation command
+    call OpMap('gb', ':''<,''>!boxes ' . join(l:flags, ' ') . '<cr>', 'v_')
+
+    " Box mend command
+    call add(l:flags, '-m')
+    call OpMap('gbm', ':''<,''>!boxes ' . join(l:flags, ' ') . '<cr>', 'v_')
 endfunc
 
 " Default
 " TODO: Find out way to fallback
 
 " VimScript
-MakeBoxMappings vim vim
+au filetype vim call MakeBoxMappings()
 
 " Rust
+" TODO: Modernize
 au filetype rust vnoremap <leader>b :'<,'>!boxes<cr>
 au filetype rust nnoremap <leader>bb V:'<,'>!boxes<cr>
 au filetype rust nnoremap <leader>bm vip:'<,'>!boxes -m<cr>
 au filetype rust nnoremap <leader>vg :Vimgrep 
 
 " Haskell
-au filetype haskell vnoremap <leader>b :'<,'>!boxes -d ada-box<cr>
-au filetype haskell vnoremap <leader>bm V:'<,'>!boxes -m<cr>
-au filetype haskell nnoremap <leader>bb V:'<,'>!boxes -d ada-box<cr>
+au filetype vim call MakeBoxMappings('ada-box')
+
+" Ultisnips
+au filetype snippets call MakeBoxMappings('shell')

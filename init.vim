@@ -221,8 +221,6 @@ command Tex !/usr/bin/time ./Proj
 let g:netrw_localrmdir='rm -r'
 autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>
 autocmd FileType netrw nnoremap <localleader>r :Ranger<cr>
-" Quickly enter ranger mode
-nnoremap _ :Ranger<cr>
 
 " TagBar settings
 " TODO: nmap <leader><leader> :TagbarToggle<CR><c-w><c-w>

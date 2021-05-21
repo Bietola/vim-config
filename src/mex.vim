@@ -61,3 +61,26 @@ au filetype mex nnoremap <localleader>g1 :cd %:p:h<cr>:!git add -A<cr>:Git commi
 au filetype mex nnoremap <localleader>g2 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Update"<cr>
 au filetype mex nnoremap <localleader>g3 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Final"<cr>
 au filetype mex nnoremap <localleader>ga :cd %:p:h<cr>:!git commit --amend --no-edit<cr>
+
+" rclone mappings
+" slow
+au filetype mex nnoremap <localleader>rs
+            \ :!rclone sync --create-empty-src-dirs -P -L
+            \ ~/sync/life/mex/ rem:main/life/mex/<cr>
+
+" fast
+au filetype mex nnoremap <localleader>rf
+            \ :!rclone sync --create-empty-src-dirs -P -L
+            \ ~/sync/life/mex/plan.mex rem:main/life/mex/<cr>
+
+" Cross things out
+fun! CycleCross(cross_box)
+    if a:cross_box ==# '[X]'
+        return '[ ]'
+    elseif a:cross_box ==# '[ ]'
+        return '[X]'
+    else
+        return '[ ]'
+    endif
+endfun
+au filetype mex nnoremap <localleader>x :.s/\[.\{-}\]/\= CycleCross(submatch(0))/g<cr>

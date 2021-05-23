@@ -56,22 +56,71 @@ endfunc
 " TODO: Make this ignore the first header line with a colon at the end...
 au filetype mex nnoremap <localleader>t :call TabularizeMexSchedule()<cr>
 
-" Git mappings
-au filetype mex nnoremap <localleader>g1 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Initial"<cr>
-au filetype mex nnoremap <localleader>g2 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Update"<cr>
-au filetype mex nnoremap <localleader>g3 :cd %:p:h<cr>:!git add -A<cr>:Git commit -m "Final"<cr>
-au filetype mex nnoremap <localleader>ga :cd %:p:h<cr>:!git commit --amend --no-edit<cr>
+"""""""""""""""""""
+" Synchronization "
+"""""""""""""""""""
 
-" rclone mappings
+" Git mappings
+" TODO: Might have problems/ambiguities with symlinks
+fun! GitQuickCommitAll(msg, do_amend = v:false)
+    Git add -A
+    if a:do_amend
+        exe 'Git commit --amend --no-edit'
+    else
+        exe 'Git commit -m' a:msg
+    endif
+endfun
+
+au filetype mex nnoremap <localleader>g1 :call GitQuickCommitAll('Initial')<cr>
+au filetype mex nnoremap <localleader>g2 :call GitQuickCommitAll('Update')<cr>
+au filetype mex nnoremap <localleader>g3 :call GitQuickCommitAll('Final')<cr>
+au filetype mex nnoremap <localleader>ga :Git commit --amend --no-edit<cr>
+
+"" rclone mappings
+
 " slow
-au filetype mex nnoremap <localleader>rs
-            \ :!rclone sync --create-empty-src-dirs -P -L
-            \ ~/sync/life/mex/ rem:main/life/mex/<cr>
+
+fun! MexRcloneSyncAll()
+    !rclone sync --create-empty-src-dirs -P -L
+        \ ~/sync/life/mex/ rem:main/life/mex/
+endfun
+
+au filetype mex nnoremap <localleader>rs :call MexRcloneSyncAll()<cr>
 
 " fast
-au filetype mex nnoremap <localleader>rf
-            \ :!rclone sync --create-empty-src-dirs -P -L
-            \ ~/sync/life/mex/plan.mex rem:main/life/mex/<cr>
+
+fun! MexRcloneSyncPlan()
+    !rclone sync --create-empty-src-dirs -P -L
+        \ ~/sync/life/mex/plan.mex rem:main/life/mex/
+endfun
+
+au filetype mex nnoremap <localleader>rf :call MexRcloneSyncPlan()<cr>
+
+" Quickly sync plan file everywhere with single mapping
+
+fun! MexQuickSync(commit_msg, do_amend = v:false)
+    call GitQuickCommitAll(a:commit_msg, a:do_amend)
+
+    if a:do_amend
+        G p -f
+    else
+        G p
+    endif
+
+    call MexRcloneSyncPlan()
+endfun
+
+au filetype mex nnoremap <localleader>s1 :call MexQuickSync('Initial')<cr>
+au filetype mex nnoremap <localleader>s2 :call MexQuickSync('Update')<cr>
+au filetype mex nnoremap <localleader>s3 :call MexQuickSync('Final')<cr>
+au filetype mex nnoremap <localleader>sa :call MexQuickSync('', v:true)<cr>
+" TODO: Implement the mapping below using a vim prompt thingy life in
+" vim-surround's `s**f`
+" au filetype mex nnoremap <localleader>sm :call MexQuickSync('...')<cr>
+
+""""""""""""""
+" Todo Lists "
+""""""""""""""
 
 " Cross things out
 fun! CycleCross(cross_box)

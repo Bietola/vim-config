@@ -1,13 +1,18 @@
+source ./quoteutils.vim
+source ./funutils.vim
 source ./pyimport.vim
 PyImport './py/vim_utils.py'
+
+""""""""""""""""
+" Local Leader "
+""""""""""""""""
 
 " TODO: Educate on localleaders
 au BufEnter * if &buftype == 'terminal' | let maplocalleader = 'ò' | endif
 
-func! FindNextTermBuf()
-    return py3eval('find_next_term_buf()')
-endfunc
-command! FindNextTermBuf call FindNextTermBuf()
+"""""""""""""""""""""""""""""""""""""""
+" Open and Find Already Open Terminal "
+"""""""""""""""""""""""""""""""""""""""
 
 func! OpenTermBuf()
     let l:term_buf = FindNextTermBuf()
@@ -16,15 +21,17 @@ func! OpenTermBuf()
     exe 'b ' . l:term_buf
 endfunc
 
+func! FindNextTermBuf()
+    return py3eval('find_next_term_buf()')
+endfunc
+command! FindNextTermBuf call FindNextTermBuf()
+
 func! GotoTermBuf()
     let l:term_buf = FindNextTermBuf()
 
     exe 'echom "Jumping to: ' . l:term_buf . '"'
     call win_gotoid(win_findbuf(l:term_buf))
 endfunc
-
-" TODO: Educate on localleaders
-au BufEnter * if &buftype == 'terminal' | let maplocalleader = 'ò' | endif
 
 for [cmd, when_inside_term] in [['t', 'i'], ['l', 'i!!<cr>']]
 exe 'nnoremap <leader>' . cmd . 'i :call OpenTermBuf()<cr>'                    . when_inside_term
@@ -34,5 +41,31 @@ exe 'nnoremap <leader>' . cmd . 'S <c-w>S<c-w>J:call OpenTermBuf()<cr>'        .
 exe 'nnoremap <leader>' . cmd . 's <c-w>S<c-w>J8<c-w>-:call OpenTermBuf()<cr>' . when_inside_term
 endfor
 
-tnoremap <localleader>e <c-\><c-n>
-tnoremap <localleader>q <c-\><c-n>:q<cr>
+"""""""""""""""""
+" Misc Mappings "
+"""""""""""""""""
+
+" Make mapping that activates when inside a terminal
+fun! TermMap(keycomb, effect)
+    let l:mapping_args = join([a:keycomb, a:effect], ' ')
+
+    " t-mode is practically terminal insert mode
+    exe 'tnoremap' l:mapping_args
+
+    " TODO: Find a way to make terminal buffer mappings not overshadow other
+    " mappings. An hacky way would be to save the old mapping and then restore
+    " it for every term mapping defined with this function. Old mappings can
+    " be extracted from `:verbose :map` output (which needs to be parsed)
+    " see: https://stackoverflow.com/questions/7642746/is-there-any-way-to-view-the-currently-mapped-keys-in-vim
+    "
+    " exe 'au BufEnter * if &buftype == "terminal" | exe' '''' . 'nnoremap' l:mapping_args . '''' '| endif'
+    " au BufLeave * if &buftype == "terminal" | echom 'welcome back from term land!' | endif
+endfun
+
+call TermMap('<localleader>e', '<c-\><c-n>')
+call TermMap('<localleader>q', '<c-\><c-n>:q<cr>')
+call TermMap('<localleader>k', '<c-\><c-n>/]\$<cr>NNzt')
+
+" tnoremap <localleader>e <c-\><c-n>
+" tnoremap <localleader>q <c-\><c-n>:q<cr>
+" tnoremap <localleader>k <c-\><c-n>/]\$<cr>NNzt

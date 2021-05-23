@@ -147,6 +147,8 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   " Close floating windows
   command! CloseAllFloats call coc#float#close_all()
+  " Quit floats (close them...)
+  nnoremap <leader>qf :CloseAllFloats<cr>
 
   " Remap <C-d> and <C-u> for scroll float windows/popups.
   nnoremap <silent><nowait><expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"

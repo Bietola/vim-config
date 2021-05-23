@@ -15,3 +15,6 @@ nnoremap <leader>{ mmF{i<space><esc>`ml
 nnoremap <leader>) mmF(hx`mh
 nnoremap <leader>] mmF[hx`mh
 nnoremap <leader>} mmF{hx`mh
+
+" Useful padding insert motion
+nnoremap <leader>O O<cr>

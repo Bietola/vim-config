@@ -27,15 +27,13 @@ snippet she.hs "Stack script shebang"
 import Prelude hiding (tail, head)
 import qualified Data.List as L
 import Data.Functor
-import Control.Lens
+import Control.Lens hiding (has, view)
 import Control.Lens.Regex.Text
 import qualified Control.Foldl as Fl
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import Text.Show.Pretty
-import Turtle hiding ((<&>), match, view)
-import qualified Turtle as Sh (view)
-import qualified Turtle.Pattern as ShP
+import Turtle hiding ((<&>))
 
 $0
 endsnippet

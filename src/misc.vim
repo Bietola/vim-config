@@ -18,3 +18,7 @@ nnoremap <leader>} mmF{hx`mh
 
 " Useful padding insert motion
 nnoremap <leader>O O<cr>
+
+" Make current file executable
+command! Chx !chmod +x %
+nnoremap <leader>fx :Chx<cr>

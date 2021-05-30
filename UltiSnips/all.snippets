@@ -10,12 +10,15 @@ snippet she.hs "Stack script shebang"
 #!/usr/bin/env stack
 {- stack script
     --resolver lts-17.10
-    --package turtle
+    --package raw-strings-qq
+		--package split
     --package foldl
+    --package mtl
     --package text
     --package pretty-show
     --package lens
     --package lens-regex-pcre
+    --package turtle
 -}
 
 {-# LANGUAGE TypeApplications #-}
@@ -23,17 +26,20 @@ snippet she.hs "Stack script shebang"
 {-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE LambdaCase #-}
 
 import Prelude hiding (tail, head)
 import qualified Data.List as L
+import qualified Data.List.Split as L
 import Data.Functor
-import Control.Lens hiding (has, view)
+import Control.Monad.State.Lazy
+import Control.Lens
 import Control.Lens.Regex.Text
 import qualified Control.Foldl as Fl
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
-import Text.Show.Pretty
-import Turtle hiding ((<&>))
+import Debug.Trace
+import Turtle
 
 $0
 endsnippet

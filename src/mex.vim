@@ -6,6 +6,23 @@
 "     echom "Error: ~/bin/yexp script required"
 " endif
 
+"""""""""
+" Utils "
+"""""""""
+
+" Search and jump to first element
+fun! RgJ(pattern)
+    exe 'Rg' a:pattern
+    if !empty(getqflist())
+        normal [Q
+    endif
+endfun
+command! -nargs=* RgJ call RgJ(<f-args>)
+
+"""""""""""""""""""""""""""""""""""""""""""""""
+" Interoperability w/ Mex Expression Language "
+"""""""""""""""""""""""""""""""""""""""""""""""
+
 " Process file with mex
 function MexStep()
   normal mm
@@ -132,4 +149,29 @@ fun! CycleCross(cross_box)
         return '[ ]'
     endif
 endfun
-au filetype mex nnoremap <localleader>x :.s/\[.\{-}\]/\= CycleCross(submatch(0))/g<cr>
+au filetype mex nnoremap <localleader>x :.s/\[.\{-}\]/\= CycleCross(submatch(0))/<cr>
+
+"""""""""
+" Lists "
+"""""""""
+
+" List any pattern
+fun! MexListPatterns(pattern)
+    exe 'RgJ' a:pattern
+endfun
+command! -nargs=1 MexListPatterns call MexListPatterns(<f-args>)
+au filetype mex nnoremap <localleader>lp :MexListPatterns<space>
+
+" List scheduled events
+fun! MexListScheduledEvents()
+    RgJ sched:
+endfun
+command! MexListScheduledEvents call MexListScheduledEvents()
+au filetype mex nnoremap <localleader>ls :MexListScheduledEvents<cr>
+
+" List headers
+fun! MexListHeaders(pattern)
+    exe 'RgJ' '\s*' . a:pattern . '.*:$'
+endfun
+command! -nargs=* MexListHeaders call MexListHeaders(<f-args>)
+au filetype mex nnoremap <localleader>lh :MexListHeaders<space>

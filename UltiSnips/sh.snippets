@@ -5,7 +5,7 @@ usage() {
 	exit 1
 }$0
 
-[[ $# -ne ${2:ARGS_NUM} ]] && usage
+[ $# -ne ${2:ARGS_NUM} ] && usage
 endsnippet
 
 snippet assert "Exit if condition is false"
@@ -30,7 +30,7 @@ endsnippet
 snippet parseflags "Parse flags"
 # Parse flags
 ${1:INIT}
-while [ -n "$(printf "%s\n" \$1 | grep '^-')" -a ! "\$1" == "--" ]; do case \$1 in
+while [ -n "$(printf "%s\n" \$1 | grep '^-')" -a ! "\$1" == '--' ]; do case \$1 in
     -${2:SHORT_NAME} | --${3:LONG_NAME} )
         shift
         ${4:BODY}

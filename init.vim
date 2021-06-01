@@ -137,7 +137,7 @@ let g:mucomplete#enable_auto_at_startup = 1
 " ctrl settings
 let g:ctrlp_show_hidden = 1
 
-" leader
+" leaders
 let mapleader = "à"
 let maplocalleader = "ò"
 

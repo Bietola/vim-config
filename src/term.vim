@@ -52,19 +52,7 @@ fun! TermMap(keycomb, effect, normal=v:false)
     " t-mode is practically terminal insert mode
     exe 'tnoremap' l:mapping_args
 
-    " TODO: Find a way to make terminal buffer mappings not overshadow other
-    " mappings. An hacky way would be to save the old mapping and then restore
-    " it for every term mapping defined with this function. Old mappings can
-    " be extracted from `:verbose :map` output (which needs to be parsed)
-    " see: https://stackoverflow.com/questions/7642746/is-there-any-way-to-view-the-currently-mapped-keys-in-vim
-    " exe 'au BufEnter * if &buftype == "terminal"' '|'
-    "                 \ 'echom' 
-    "                     \ '"WARNING! Override of mapping"' 
-    "                     \ l:mapping_args 
-    "                     \ '"on ALL BUFFERS (this needs to be fixed)"' '|'
-    "                 \ 'exe' '''' . 'nnoremap' l:mapping_args . '''' 
-    "             \ '|' 'endif'
-    " au BufLeave * if &buftype == "terminal" | echom 'welcome back from term land!' | endif
+    " Make buffer specific normal mode kbs
     if a:normal
         augroup term
             au!

@@ -1,9 +1,5 @@
-" hello
-function DoTest()
-    let l:file = readfile(expand('%'))
-    for line in l:file
-        if len(matchlist(line, '\v^" hello$'))
-            echom(line)
-        endif
-    endfor
-endfunction
+augroup testgroup
+    au!
+    au BufWrite * :echom "Foo"
+    au BufWrite * :echom "Bar"
+augroup END

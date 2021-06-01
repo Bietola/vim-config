@@ -106,14 +106,14 @@ au filetype mex nnoremap <localleader>rs :call MexRcloneSyncAll()<cr>
 
 " fast
 
-fun! MexRcloneSyncPlan()
+fun! MexRcloneSyncMain()
     !rclone sync --create-empty-src-dirs -P -L
-        \ ~/sync/life/mex/plan.mex rem:main/life/mex/
+        \ ~/sync/life/mex/main rem:main/life/mex/main
 endfun
 
-au filetype mex nnoremap <localleader>rf :call MexRcloneSyncPlan()<cr>
+au filetype mex nnoremap <localleader>rf :call MexRcloneSyncMain()<cr>
 
-" Quickly sync plan file everywhere with single mapping
+" Quickly sync main folder everywhere with single mapping
 
 fun! MexQuickSync(commit_msg, do_amend = v:false)
     call GitQuickCommitAll(a:commit_msg, a:do_amend)
@@ -124,7 +124,7 @@ fun! MexQuickSync(commit_msg, do_amend = v:false)
         G p
     endif
 
-    call MexRcloneSyncPlan()
+    call MexRcloneSyncMain()
 endfun
 
 au filetype mex nnoremap <localleader>s1 :call MexQuickSync('Initial')<cr>

@@ -46,7 +46,7 @@ endfor
 """""""""""""""""
 
 " Make mapping that activates when inside a terminal
-fun! TermMap(keycomb, effect)
+fun! TermMap(keycomb, effect, normal=v:false)
     let l:mapping_args = join([a:keycomb, a:effect], ' ')
 
     " t-mode is practically terminal insert mode
@@ -57,7 +57,6 @@ fun! TermMap(keycomb, effect)
     " it for every term mapping defined with this function. Old mappings can
     " be extracted from `:verbose :map` output (which needs to be parsed)
     " see: https://stackoverflow.com/questions/7642746/is-there-any-way-to-view-the-currently-mapped-keys-in-vim
-    "
     " exe 'au BufEnter * if &buftype == "terminal"' '|'
     "                 \ 'echom' 
     "                     \ '"WARNING! Override of mapping"' 
@@ -66,11 +65,18 @@ fun! TermMap(keycomb, effect)
     "                 \ 'exe' '''' . 'nnoremap' l:mapping_args . '''' 
     "             \ '|' 'endif'
     " au BufLeave * if &buftype == "terminal" | echom 'welcome back from term land!' | endif
+    if a:normal
+        augroup term
+            au!
+            " au BufEnter * if &buftype == 'terminal' | exe 'nnoremap <buffer>' l:mapping_args | endif
+            exe 'au TermOpen * nnoremap <buffer>' l:mapping_args
+        augroup END
+    endif
 endfun
 
 call TermMap('<localleader>e', '<c-\><c-n>')
 call TermMap('<localleader>q', '<c-\><c-n>:q<cr>')
-call TermMap('<localleader>k', '<c-\><c-n>/]\$<cr>NNzt')
+call TermMap('<localleader>k', '<c-\><c-n>/]\$<cr>NNzt', v:true)
 
 " tnoremap <localleader>e <c-\><c-n>
 " tnoremap <localleader>q <c-\><c-n>:q<cr>

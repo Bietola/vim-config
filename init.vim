@@ -207,11 +207,11 @@ set timeoutlen=10000
 " imap jk <Esc> " RIP (need caps lock for ranger)
 
 " utility commands
-command W      set wrap!
-command NoWar  set errorformat^=%-G%f:%l:\ warning:%m
-command Tgen   cd .. | !ctags -R | cd build
-command Comp   !g++ main.cpp -o Proj
-command RCEdit edit $MYVIMRC
+command! LineWrap set wrap!
+command! NoWar    set errorformat^=%-G%f:%l:\ warning:%m
+command! Tgen     cd .. | !ctags -R | cd build
+command! Comp     !g++ main.cpp -o Proj
+command! RCEdit   edit $MYVIMRC
 nnoremap <leader><leader> :RC<cr>
 
 command Ex  !./Proj
@@ -435,7 +435,7 @@ py3 sys.path.append(vim.eval('g:external_conf_scripts_dir'))
 
 " Load subscripts
 if exists('g:dont_load_subscripts') == 0 || g:dont_load_subscripts == 0
-    for src_file in split(glob(g:external_conf_scripts_dir."/*.vim"), "\n")
+    for src_file in split(glob(g:external_conf_scripts_dir."/**/*.vim"), "\n")
         exe "source" src_file
         " echom "loaded " src_file
     endfor

@@ -12,3 +12,10 @@ endfun
 command! -nargs=* -complete=arglist OpenDiff call OpenDiff(<f-args>)
 
 nnoremap <leader>od :OpenDiff<space>
+
+" Write file creating intermediate dir path
+fun! CompletePathNWrite()
+    !mkdir -p %:h
+    write
+endfun
+command! Write call CompletePathNWrite()

@@ -1,5 +1,3 @@
-" augroup testgroup
-"     au!
-"     au BufWrite * :echom "Foo"
-"     au BufWrite * :echom "Bar"
-" augroup END
+fun! Test(arg)
+    return a:arg
+endfun

@@ -9,9 +9,9 @@ command! ArgsFromGit exe 'args' join(systemlist('git ls-files'), ' ')
 " NB. `<leader>vg` (vim grep) is usually only useful after using this
 nnoremap <leader>va :ArgsFromGit<cr>
 
-" Open a recent project
-fun! OpenRecentProj()
-    browse oldfiles
+" "Open Old": Open a recent project
+fun! OpenRecentProj(pattern = '/.*/')
+    exe 'browse filter' a:pattern 'oldfiles'
     
     echom expand('%:p')
 
@@ -21,8 +21,9 @@ fun! OpenRecentProj()
         cd %:p:h
     endif
 endfun
-command! OpenRecentProj call OpenRecentProj()
-nnoremap <leader>op :OpenRecentProj<cr>
+command! -nargs=* OpenRecentProj call OpenRecentProj(<f-args>)
+nnoremap <leader>oo :OpenRecentProj<space>
+nnoremap <leader>oO :OpenRecentProj<cr>
 
 " Go to last thing to do
 command! GotoTODOCC Vimgrep TODO\/CC

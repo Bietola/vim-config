@@ -6,6 +6,7 @@
 nnoremap gl gu
 vnoremap gl gu
 
+" "Sorround Hack"
 " Parenthesis text objects don't work when there's a backslash before them
 " (e.g. `\(hello there)`). These mappings make it easier to deal with this in
 " a hacky way.

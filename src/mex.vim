@@ -6,18 +6,40 @@
 "     echom "Error: ~/bin/yexp script required"
 " endif
 
+source ./funutils.vim
+
 """""""""
 " Utils "
 """""""""
 
 " Search and jump to first element
-fun! RgJ(pattern)
-    exe 'Rg' a:pattern
+fun! MexGrep(pattern)
+    exe 'vimgrep' a:pattern '##'
+
+    cope
+
+    " Jump to first entry
     if !empty(getqflist())
-        normal [Q
+        cnext
     endif
+
+    " vim_addon_qf_layout#Quickfix()
 endfun
-command! -nargs=* RgJ call RgJ(<f-args>)
+command! -nargs=* MexGrep call MexGrep(<f-args>)
+
+""""""""""""""""""""""""""""
+" Open Important Max Paths "
+""""""""""""""""""""""""""""
+
+fun! OpenMexMain()
+    cd ~/life/mex/main
+
+    " NB. for `vimgrep PAT ##` to work properly
+    args **
+endfun
+command! OpenMexMain call OpenMexMain()
+
+nnoremap <leader>oM :call OpenMexMain()<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Interoperability w/ Mex Expression Language "
@@ -155,23 +177,81 @@ au filetype mex nnoremap <localleader>x :.s/\[.\{-}\]/\= CycleCross(submatch(0))
 " Lists "
 """""""""
 
+" Sort Quickfix List according to scheduled dates
+fun! SortSchedQFList()
+    let l:date_re = 'sched:\s*\(.\{-}\)\(;\|\s\|\n\|$\)'
+
+    fun! Comp(lhs, rhs) closure
+
+        let lhs_d = matchlist(a:lhs.text, l:date_re)[1]
+        let rhs_d = matchlist(a:rhs.text, l:date_re)[1]
+
+        if lhs_d ==# rhs_d
+            return 0
+        else
+            return lhs_d > rhs_d ? 1 : -1
+        endif
+        
+    endfun
+
+    fun! FmtListEntry(entry) closure
+        let l:dummy_lst = [get(matchlist(a:entry, l:date_re), 1, 'NODATE') . ':' . 'TEST DESCRIPTION']
+        call tabular#TabularizeStrings(l:dummy_lst, ':', 'l0')
+        return l:dummy_lst[0]
+    endfun
+
+    " call setqflist(Map(
+    "     \ { d -> DictModField(d, 'text',
+    "         \ funcref('FmtListEntry')
+    "     \ )},
+    "     \ sort(copy(getqflist()), funcref('Comp'))
+    " \ ))
+
+    let l:qfl = sort(copy(getqflist()), funcref('Comp'))
+
+    let l:txt_entries = Map({ d -> d['text'] }, l:qfl)
+
+    map(
+        \ l:txt_entries
+        \ { v -> get(matchlist(v, l:date_re), 1, 'NODATE') . ':' . 'TEST DESCRIPTION' },
+    \ )
+
+    call tabular#TabularizeStrings(l:txt_entries, ':', 'l0')
+
+    let qfl = Map(
+        { tpl -> tpl[0]['text'] = tpl[1] },
+        Zip(l:qfl, l:txt_entries)
+    )
+
+    echom Map({ v -> get(v, 'text') }, qfl)
+endfun
+
 " List any pattern
 fun! MexListPatterns(pattern)
-    exe 'RgJ' a:pattern
+    exe 'MexGrep' a:pattern
 endfun
 command! -nargs=1 MexListPatterns call MexListPatterns(<f-args>)
 au filetype mex nnoremap <localleader>lp :MexListPatterns<space>
 
 " List scheduled events
 fun! MexListScheduledEvents()
-    RgJ sched:
+    MexGrep sched:
+    call SortSchedQFList()
+
+    " Hack needed to refresh the qf list so that `vim_addon_qf_layout` formats
+    " the list again after `SortSchedQFList`
+    "
+    " See: https://github.com/MarcWeber/vim-addon-qf-layout/issues/8
+    "
+    " TODO: Find a non-hacky way
+    cclose | cope | wincmd w
 endfun
 command! MexListScheduledEvents call MexListScheduledEvents()
 au filetype mex nnoremap <localleader>ls :MexListScheduledEvents<cr>
 
 " List headers
 fun! MexListHeaders(pattern)
-    exe 'RgJ' '\s*' . a:pattern . '.*:$'
+    exe 'MexGrep' '\s*' . a:pattern . '.*:$'
 endfun
 command! -nargs=* MexListHeaders call MexListHeaders(<f-args>)
 au filetype mex nnoremap <localleader>lh :MexListHeaders<space>

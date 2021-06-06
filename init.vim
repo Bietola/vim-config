@@ -5,6 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'MarcWeber/vim-addon-qf-layout'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tidalcycles/vim-tidal'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }

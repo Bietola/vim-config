@@ -12,6 +12,10 @@ fun! Map(fn, seq)
     return l:res
 endfun
 
+fun! Filter(fn, seq)
+    return filter(copy(a:seq), { _, v -> a:fn(v) })
+endfun
+
 fun! Zip(...)
     let res = []
     for idx in range(max(Map({ v -> len(v) }, a:000)))

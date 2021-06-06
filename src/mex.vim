@@ -14,14 +14,19 @@ source ./funutils.vim
 
 " Search and jump to first element
 fun! MexGrep(pattern)
-    exe 'vimgrep' a:pattern '##'
+    cclose
 
-    cope
+    " TODO: Uncomment this when solving `TODO/SU/neovim/0`
+    " exe 'grep -B 1' a:pattern '##'
+
+    exe 'grep' a:pattern '##'
+
+    cope | wincmd w
 
     " Jump to first entry
-    if !empty(getqflist())
-        cnext
-    endif
+    " if !empty(getqflist())
+    "     cnext
+    " endif
 
     " vim_addon_qf_layout#Quickfix()
 endfun
@@ -183,8 +188,8 @@ fun! SortSchedQFList()
 
     fun! Comp(lhs, rhs) closure
 
-        let lhs_d = matchlist(a:lhs.text, l:date_re)[1]
-        let rhs_d = matchlist(a:rhs.text, l:date_re)[1]
+        let lhs_d = get(matchlist(a:lhs.text, l:date_re), 1, 'NOSCHED')
+        let rhs_d = get(matchlist(a:rhs.text, l:date_re), 1, 'NOSCHED')
 
         if lhs_d ==# rhs_d
             return 0
@@ -194,11 +199,11 @@ fun! SortSchedQFList()
         
     endfun
 
-    fun! FmtListEntry(entry) closure
-        let l:dummy_lst = [get(matchlist(a:entry, l:date_re), 1, 'NODATE') . ':' . 'TEST DESCRIPTION']
-        call tabular#TabularizeStrings(l:dummy_lst, ':', 'l0')
-        return l:dummy_lst[0]
-    endfun
+    " fun! FmtListEntry(entry) closure
+    "     let l:dummy_lst = [get(matchlist(a:entry, l:date_re), 1, 'NODATE') . ':' . 'TEST DESCRIPTION']
+    "     call tabular#TabularizeStrings(l:dummy_lst, ':', 'l0')
+    "     return l:dummy_lst[0]
+    " endfun
 
     " call setqflist(Map(
     "     \ { d -> DictModField(d, 'text',
@@ -207,23 +212,40 @@ fun! SortSchedQFList()
     "     \ sort(copy(getqflist()), funcref('Comp'))
     " \ ))
 
-    let l:qfl = sort(copy(getqflist()), funcref('Comp'))
+    let l:qfl = copy(getqflist())
+
+    let l:qfl = Filter(
+        \ { v -> v['valid'] && match(v['text'], l:date_re) >= 0 },
+        \ l:qfl
+    \ )
+
+    " echom 'fqfl:' l:qfl
+
+    let l:qfl = sort(copy(l:qfl), funcref('Comp'))
 
     let l:txt_entries = Map({ d -> d['text'] }, l:qfl)
 
-    map(
+    " echom 'txt' l:txt_entries
+
+    let l:txt_entries = Map(
+        \ { v -> get(matchlist(v, l:date_re), 1, 'NODATE') . '|' . 'WIP' },
         \ l:txt_entries
-        \ { v -> get(matchlist(v, l:date_re), 1, 'NODATE') . ':' . 'TEST DESCRIPTION' },
     \ )
 
-    call tabular#TabularizeStrings(l:txt_entries, ':', 'l0')
+    " echom 'ptxt:' l:txt_entries
 
-    let qfl = Map(
-        { tpl -> tpl[0]['text'] = tpl[1] },
-        Zip(l:qfl, l:txt_entries)
-    )
+    call tabular#TabularizeStrings(l:txt_entries, '|', 'l1')
 
-    echom Map({ v -> get(v, 'text') }, qfl)
+    " echom 'ftxt:' l:txt_entries
+
+    let l:qfl = Map(
+        \ { tpl -> DictSetField(tpl[0], 'text', tpl[1]) },
+        \ Zip(l:qfl, l:txt_entries)
+    \ )
+
+    " echom Map({ v -> get(v, 'text') }, l:qfl)
+    
+    call setqflist(l:qfl)
 endfun
 
 " List any pattern

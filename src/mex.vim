@@ -21,13 +21,14 @@ fun! MexGrep(pattern)
 
     exe 'grep' a:pattern '##'
 
-    cope | wincmd w
+    cope
 
     " Jump to first entry
-    " if !empty(getqflist())
-    "     cnext
-    " endif
+    if !empty(getqflist())
+        cfirst
+    endif
 
+    " TODO: Make this work
     " vim_addon_qf_layout#Quickfix()
 endfun
 command! -nargs=* MexGrep call MexGrep(<f-args>)
@@ -266,7 +267,7 @@ fun! MexListScheduledEvents()
     " See: https://github.com/MarcWeber/vim-addon-qf-layout/issues/8
     "
     " TODO: Find a non-hacky way
-    cclose | cope | wincmd w
+    cclose | cope | cfirst
 endfun
 command! MexListScheduledEvents call MexListScheduledEvents()
 au filetype mex nnoremap <localleader>ls :MexListScheduledEvents<cr>

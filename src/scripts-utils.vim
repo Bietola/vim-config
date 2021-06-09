@@ -62,7 +62,8 @@ func! GoBack()
 endfunc
 
 nnoremap <leader><leader> :call EditRC()<cr>
-nnoremap <leader>S :call EditSrcFile()<cr>
+nnoremap <leader>os :call EditSrcFile()<cr>
+exe 'nnoremap <leader>vs <c-w><c-v><c-w><c-l>:e' g:external_conf_scripts_dir . '<cr>'
 " TODO: Use opfunc to define this
 " nnoremap <leader>s :source<cr>
 

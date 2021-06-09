@@ -22,7 +22,14 @@
             "command": "haskell-language-server-wrapper",
             "args": ["--lsp"],
             "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
-            "filetypes": ["haskell", "lhaskell"]
+            "filetypes": ["haskell", "lhaskell"],
+            "plugin": {
+                "tactics": {
+                    "config": {
+                        "hole_severity": 4
+                    }
+                }
+            }
         },
 
         "python": {

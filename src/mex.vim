@@ -130,6 +130,11 @@ fun! MexRcloneSyncAll()
         \ ~/sync/life/mex/ rem:main/life/mex/
 endfun
 
+fun! MexRcloneSyncFetch()
+    !rclone sync -P -L
+        \ rem:main/life/mex/ ~/sync/life/mex/
+endfun
+
 au filetype mex nnoremap <localleader>rs :call MexRcloneSyncAll()<cr>
 
 " fast
@@ -159,6 +164,7 @@ au filetype mex nnoremap <localleader>s1 :call MexQuickSync('Initial')<cr>
 au filetype mex nnoremap <localleader>s2 :call MexQuickSync('Update')<cr>
 au filetype mex nnoremap <localleader>s3 :call MexQuickSync('Final')<cr>
 au filetype mex nnoremap <localleader>sa :call MexQuickSync('', v:true)<cr>
+au filetype mex nnoremap <localleader>sf :!rclone sync -P -L rem:main/life/mex/main/ ~/sync/life/mex/main/<cr>
 " TODO: Implement the mapping below using a vim prompt thingy life in
 " vim-surround's `s**f`
 " au filetype mex nnoremap <localleader>sm :call MexQuickSync('...')<cr>

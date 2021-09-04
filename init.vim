@@ -5,6 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
+Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
 Plug 'MarcWeber/vim-addon-qf-layout'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tidalcycles/vim-tidal'

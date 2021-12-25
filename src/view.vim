@@ -8,3 +8,6 @@
 
 " Conveniently create new tabs
 nnoremap <leader>gt :tabnew<cr>
+
+" Toggle line wrap
+nnoremap <leader>W :set wrap!<cr>

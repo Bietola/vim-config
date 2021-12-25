@@ -1,3 +1,9 @@
+""""""""""""""""""""""""""
+" Script Local Variables "
+""""""""""""""""""""""""""
+
+let s:current_bar = 1
+
 """""""""""""
 " Functions "
 """""""""""""
@@ -26,6 +32,7 @@ endfunction
 command! ViewScore call ViewScore()
 
 function PlayMidiFromBar(start_bar)
+    let s:current_bar = a:start_bar
     let l:play_shell_command = 'lyplay '. GetMidiFileName() . ' ' . a:start_bar
     echom 'running:' l:play_shell_command
     execute '!' . l:play_shell_command
@@ -36,6 +43,11 @@ function PlayMidiAll()
     call PlayMidiFromBar(1)
 endfunction
 command! PlayMidiAll call PlayMidiAll()
+
+function PlayMidiFromCurrentBar()
+    call PlayMidiFromBar(s:current_bar)
+endfunction
+command! PlayMidiFromCurrentBar call PlayMidiFromCurrentBar()
 
 function GetOutputFileName()
     let l:cfile = readfile(expand('%'))
@@ -98,7 +110,8 @@ command! StartAldaServer call StartAldaServer()
 au filetype lilypond let maplocalleader = "ò"
 
 " Compile current file
-au filetype lilypond nnoremap <localleader>c :w<cr>:CompileScore<cr>
+" NB. `m` stands for `make`
+au filetype lilypond nnoremap <localleader>m :w<cr>:CompileScore<cr>
 
 " View pdf associated with current file
 au filetype lilypond nnoremap <localleader>v :ViewScore<cr>
@@ -109,6 +122,9 @@ au filetype lilypond nnoremap <localleader>a :PlayMidiAll<cr>
 
 " Play only from specified bar
 au filetype lilypond nnoremap <localleader>b :PlayMidiFromBar<space>
+
+" Play from last specified bar
+au filetype lilypond nnoremap <localleader>c :PlayMidiFromCurrentBar<cr>
 
 " Play specified musical note
 au filetype lilypond call CreateNoteBindings()

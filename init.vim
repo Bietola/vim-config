@@ -5,7 +5,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
-Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
+" TODO: Doesn't work during PlugUpdate Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
 Plug 'MarcWeber/vim-addon-qf-layout'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tidalcycles/vim-tidal'
@@ -56,7 +56,6 @@ Plug 'sheerun/vim-polyglot'
 "TODO Plug 'vim-syntastic/syntastic'
 
 " colorschemes
-Plug 'nightsense/carbonized'
 Plug 'JarrodCTaylor/spartan'
 Plug 'KKPMW/sacredforest-vim'
 Plug 'cocopon/iceberg.vim'

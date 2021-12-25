@@ -34,3 +34,9 @@ au filetype haskell call MakeBoxMappings('ada-box')
 
 " Ultisnips
 au filetype snippets call MakeBoxMappings('shell')
+
+" Shell
+au filetype sh call MakeBoxMappings('shell')
+
+" Sxhkdrc
+au filetype sxhkdrc call MakeBoxMappings('shell')

@@ -6,6 +6,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
 " TODO: Doesn't work during PlugUpdate Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
+Plug 'PyGamer0/vim-apl'
 Plug 'MarcWeber/vim-addon-qf-layout'
 Plug 'jremmen/vim-ripgrep'
 Plug 'tidalcycles/vim-tidal'
@@ -160,7 +161,7 @@ set guifont=Consolas:h17
 nnoremap <leader>m :colorscheme morning<cr>
 
 " Airline settings
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 2
 
 " whitespace (tab/backspace) things
 set tabstop=4

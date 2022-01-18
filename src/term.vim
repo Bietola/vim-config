@@ -66,6 +66,5 @@ call TermMap('<localleader>e', '<c-\><c-n>')
 call TermMap('<localleader>q', '<c-\><c-n>:q<cr>')
 call TermMap('<localleader>k', '<c-\><c-n>/]\$<cr>NNzt', v:true)
 
-" tnoremap <localleader>e <c-\><c-n>
-" tnoremap <localleader>q <c-\><c-n>:q<cr>
-" tnoremap <localleader>k <c-\><c-n>/]\$<cr>NNzt
+" Get terminal job id
+call TermMap('<localleader>j', ':echo "terminal job id:" b:terminal_job_id<cr>')

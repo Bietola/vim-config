@@ -1,5 +1,5 @@
 {
-    "coc.source.emoji.filetypes": ["markdown", "python"]
+    "coc.source.emoji.filetypes": ["markdown", "python"],
 
     "languageserver": {
         "clangd": {

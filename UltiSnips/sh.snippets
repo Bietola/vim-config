@@ -23,6 +23,20 @@ command -v ${1:PROGRAM_NAME} &>/dev/null || { echo "Please install $1 to continu
 $0
 endsnippet
 
+# TODO: Do this programmatically
+snippet row1 "Get first element in row"
+awk '{ print \$1 }'
+endsnippet
+snippet row2 "Get second element in row"
+awk '{ print \$2 }'
+endsnippet
+snippet row3 "Get third element in row"
+awk '{ print \$3 }'
+endsnippet
+snippet row4 "Get fourth element in row"
+awk '{ print \$4 }'
+endsnippet
+
 ########################
 # Bash specific things #
 ########################

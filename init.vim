@@ -158,7 +158,6 @@ set background=dark
 set termguicolors
 colorscheme iceberg
 set guifont=Consolas:h17
-nnoremap <leader>m :colorscheme morning<cr>
 
 " Airline settings
 let g:airline_powerline_fonts = 2

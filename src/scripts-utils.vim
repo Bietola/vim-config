@@ -12,8 +12,6 @@ func! s:SourceVimrcWithoutScripts()
 endfunc
 
 func! s:SavePosition()
-    let s:cwd_save = getcwd()
-
     if expand('%:p') !=# $MYVIMRC && expand('%:p:h') != g:external_conf_scripts_dir
         execute 'normal! mB'
     endif
@@ -28,7 +26,7 @@ endfunc
 func! EditSrcFile()
     call s:SavePosition()
     nnoremap <leader><leader> :call GoBack()<cr>
-    exe 'cd' g:external_conf_scripts_dir
+    exe 'lcd' g:external_conf_scripts_dir
     exe 'tabnew'
     arglocal * $MYVIMRC
     exe 'edit' g:external_conf_scripts_dir
@@ -56,7 +54,6 @@ func! GoBack()
 
     nnoremap <leader><leader> :call EditRC()<cr>
 
-    exe 'cd' s:cwd_save
     quit
     exe 'normal! `B'
 endfunc

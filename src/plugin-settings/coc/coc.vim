@@ -78,7 +78,7 @@ nmap <space>r <Plug>(coc-rename)
 " Formatting selected code.
 xmap <space>f  <Plug>(coc-format-selected)
 nmap <space>f  <Plug>(coc-format-selected)
-nmap <space>fd :Format<cr>
+nmap <space>fd <Plug>(coc-format)
 
 augroup mygroup
   autocmd!
@@ -108,8 +108,10 @@ omap af <Plug>(coc-funcobj-a)
 " Use <TAB> for selections ranges.
 " NOTE: Requires 'textDocument/selectionRange' support from the language server.
 " coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" TODO: Make vim distinguish between TAB and c-i (as of now, activating the
+" mappings below disables <c-i>'s jump back function)
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')

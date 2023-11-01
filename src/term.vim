@@ -36,10 +36,12 @@ endfunc
 for [cmd, when_inside_term] in [['t', 'i'], ['l', 'i!!<cr>']]
 exe 'nnoremap <leader>' . cmd . 'i :call OpenTermBuf()<cr>'                    . when_inside_term
 exe 'nnoremap <leader>' . cmd . 't :tabnew<cr>:call OpenTermBuf()<cr>'         . when_inside_term
-exe 'nnoremap <leader>' . cmd . 'v <c-w>V:call OpenTermBuf()<cr>'              . when_inside_term
+exe 'nnoremap <leader>' . cmd . 'v <c-w>v:call OpenTermBuf()<cr>'              . when_inside_term
 exe 'nnoremap <leader>' . cmd . 'S <c-w>S<c-w>J:call OpenTermBuf()<cr>'        . when_inside_term
 exe 'nnoremap <leader>' . cmd . 's <c-w>S<c-w>J8<c-w>-:call OpenTermBuf()<cr>' . when_inside_term
 endfor
+
+nnoremap <c-space> <c-w>S<c-w>J:call OpenTermBuf()<cr>i
 
 """""""""""""""""
 " Misc Mappings "
@@ -65,6 +67,7 @@ endfun
 call TermMap('<localleader>e', '<c-\><c-n>')
 call TermMap('<localleader>q', '<c-\><c-n>:q<cr>')
 call TermMap('<localleader>k', '<c-\><c-n>/]\$<cr>NNzt', v:true)
+call TermMap('<c-space>', '<c-\><c-n>:q<cr>', v:true)
 
 " Get terminal job id
 call TermMap('<localleader>j', ':echo "terminal job id:" b:terminal_job_id<cr>')

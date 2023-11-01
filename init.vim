@@ -5,7 +5,11 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " plugins
-" TODO: Doesn't work during PlugUpdate Plug 'davidgranstrom/scnvim', { 'do': {-> scnvim#install() } }
+Plug 'TobinPalmer/pastify.nvim'
+Plug 'nvim-neorg/neorg' | Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
 Plug 'PyGamer0/vim-apl'
 Plug 'MarcWeber/vim-addon-qf-layout'
 Plug 'jremmen/vim-ripgrep'
@@ -13,8 +17,6 @@ Plug 'tidalcycles/vim-tidal'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'sersorrel/vim-lilypond'
-Plug 'vimwiki/vimwiki'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'daveyarwood/vim-alda'
 Plug 'calincru/flex-bison-syntax'
 Plug 'ron-rs/ron.vim'
@@ -23,7 +25,6 @@ Plug 'alx741/vim-hindent'
 Plug 'AndrewRadev/dsf.vim'
 Plug 'runoshun/vim-alloy'
 Plug 'guns/vim-sexp'
-Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rust-lang/rust.vim'
@@ -39,14 +40,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'jpalardy/vim-slime'
 Plug 'AndrewRadev/sideways.vim'
 " Plug 'Valloric/YouCompleteMe' (RIP)
 Plug 'majutsushi/tagbar'
 Plug 'thaerkh/vim-workspace'
-Plug 'godlygeek/tabular'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'kien/ctrlp.vim'
 
 " programming languages
@@ -70,6 +71,7 @@ set exrc
 " nvim :termin$al suff
 if has("nvim")
   tnoremap <ESC><ESC> <C-\><C-n>
+  tnoremap <c-w><c-w> <c-\><c-n><c-w><c-w>
   "! tnoremap jk <C-\><C-n> " RIP (need caps lock for ranger)
 endif
 
@@ -160,7 +162,7 @@ colorscheme iceberg
 set guifont=Consolas:h17
 
 " Airline settings
-let g:airline_powerline_fonts = 2
+" let g:airline_powerline_fonts = 2
 
 " whitespace (tab/backspace) things
 set tabstop=4
@@ -223,6 +225,7 @@ command Tex !/usr/bin/time ./Proj
 let g:netrw_localrmdir='rm -r'
 autocmd FileType netrw nnoremap ? :help netrw-quickmap<CR>
 autocmd FileType netrw nnoremap <localleader>r :Ranger<cr>
+nnoremap <leader>- :Ranger<cr>
 
 " TagBar settings
 " TODO: nmap <leader><leader> :TagbarToggle<CR><c-w><c-w>
@@ -255,8 +258,8 @@ let delimitMate_expand_cr = 1
 nnoremap <leader>ft :TableFormat<CR>
 
 " markdown settings  
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-let g:markdown_enable_folding = 1
+" autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+" let g:markdown_enable_folding = 1
 
 " vim-pandoc settings
 "" let g:pandoc#syntax#codeblocks#embeds#langs = ["cpp"]
